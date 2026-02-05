@@ -23,7 +23,7 @@ export default {
       fontFamily: {
         'header': ['"Bright Retro"', 'serif'],
         'body': ['"EB Garamond"', 'serif'],
-        'cursive': ['"Dear Joe Four Regular"', 'cursive'],
+        'cursive': ['"Satisfy"', 'cursive'],
       }
     },
   },

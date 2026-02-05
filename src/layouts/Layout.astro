@@ -16,16 +16,12 @@ const { title } = Astro.props;
 		<title>{title} | Sherri's Beach Home</title>
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Satisfy&display=swap" rel="stylesheet">
 		<style is:global>
 			/* Fallback for local/custom fonts until files are provided */
 			@font-face {
 				font-family: 'Bright Retro';
 				src: local('Bright Retro'), local('serif');
-			}
-			@font-face {
-				font-family: 'Dear Joe Four Regular';
-				src: local('Dear Joe Four Regular'), local('cursive');
 			}
 
 			:root {
@@ -45,7 +41,7 @@ const { title } = Astro.props;
 			}
 
 			.cursive {
-				font-family: 'Dear Joe Four Regular', cursive;
+				font-family: 'Satisfy', cursive;
 			}
 		</style>
 	</head>
@@ -64,7 +60,7 @@ const { title } = Astro.props;
 			<slot />
 		</main>
 		<footer class="max-w-6xl mx-auto px-6 py-20 text-center border-t border-[#2a5a6b]/10 mt-20">
-			<p class="font-serif italic text-xl mb-4 text-[#2a5a6b]/80">"Sun, Sand, and Memories"</p>
+			<p class="cursive text-3xl mb-4 text-[#2a5a6b]/80">"Sun, Sand, and Memories"</p>
 			<p class="text-sm uppercase tracking-widest opacity-60">
 				&copy; {new Date().getFullYear()} Sherri's Beach Home · Cape San Blas, FL
 			</p>
