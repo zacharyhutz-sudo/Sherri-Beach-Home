@@ -13,31 +13,61 @@ const { title } = Astro.props;
 		<meta name="viewport" content="width=device-width" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<meta name="generator" content={Astro.generator} />
-		<title>{title}</title>
+		<title>{title} | Sherri's Beach Home</title>
+		<link rel="preconnect" href="https://fonts.googleapis.com">
+		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+		<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&display=swap" rel="stylesheet">
+		<style is:global>
+			/* Fallback for local/custom fonts until files are provided */
+			@font-face {
+				font-family: 'Bright Retro';
+				src: local('Bright Retro'), local('serif');
+			}
+			@font-face {
+				font-family: 'Dear Joe Four Regular';
+				src: local('Dear Joe Four Regular'), local('cursive');
+			}
+
+			:root {
+				--beach-sand: #f6f1eb;
+				--beach-ocean: #2a5a6b;
+			}
+			
+			html, body {
+				margin: 0;
+				width: 100%;
+				min-height: 100vh;
+				font-family: 'EB Garamond', serif;
+			}
+
+			h1, h2, h3 {
+				font-family: 'Bright Retro', serif;
+			}
+
+			.cursive {
+				font-family: 'Dear Joe Four Regular', cursive;
+			}
+		</style>
 	</head>
-	<body class="bg-white text-gray-900 selection:bg-blue-100 selection:text-blue-900">
-		<nav class="max-w-4xl mx-auto px-6 py-8 flex justify-between items-center">
-			<a href="/" class="text-2xl font-black text-blue-900 tracking-tighter hover:opacity-80 transition-opacity">
-				SHERRI'S BEACH CONDO
+	<body class="bg-[#f6f1eb] text-[#2a5a6b] selection:bg-blue-100 selection:text-blue-900">
+		<nav class="max-w-6xl mx-auto px-6 py-12 flex flex-col md:flex-row justify-between items-center gap-8">
+			<a href="/" class="text-4xl md:text-5xl font-normal tracking-tight hover:opacity-80 transition-opacity text-center md:text-left" style="font-family: 'Bright Retro', serif;">
+				Sherri's Beach Home
 			</a>
-			<div class="flex gap-6 font-medium text-gray-600">
-				<a href="/" class="hover:text-blue-900 transition-colors">Home</a>
-				<a href="/guide" class="hover:text-blue-900 transition-colors">Cape Guide</a>
-				<a href="/book" class="hover:text-blue-900 transition-colors">Book</a>
+			<div class="flex gap-8 font-serif text-lg uppercase tracking-widest">
+				<a href="/" class="hover:border-b border-[#2a5a6b] transition-all">Home</a>
+				<a href="/guide" class="hover:border-b border-[#2a5a6b] transition-all">Cape Guide</a>
+				<a href="/book" class="hover:border-b border-[#2a5a6b] transition-all">Book Now</a>
 			</div>
 		</nav>
-		<slot />
-		<footer class="max-w-4xl mx-auto px-6 py-20 text-center text-sm text-gray-400">
-			&copy; {new Date().getFullYear()} Sherri's Beach Condo · Cape San Blas, FL
+		<main>
+			<slot />
+		</main>
+		<footer class="max-w-6xl mx-auto px-6 py-20 text-center border-t border-[#2a5a6b]/10 mt-20">
+			<p class="font-serif italic text-xl mb-4 text-[#2a5a6b]/80">"Sun, Sand, and Memories"</p>
+			<p class="text-sm uppercase tracking-widest opacity-60">
+				&copy; {new Date().getFullYear()} Sherri's Beach Home · Cape San Blas, FL
+			</p>
 		</footer>
 	</body>
 </html>
-
-<style is:global>
-	html,
-	body {
-		margin: 0;
-		width: 100%;
-		min-height: 100vh;
-	}
-</style>

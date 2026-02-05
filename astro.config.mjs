@@ -5,5 +5,7 @@ import { defineConfig } from "astro/config";
 export default defineConfig({
   site: "https://zacharyhutz-sudo.github.io",
   base: "Sherri-Beach-Home",
-  integrations: [tailwind()],
+  integrations: [tailwind({
+    applyBaseStyles: false,
+  })],
 });
