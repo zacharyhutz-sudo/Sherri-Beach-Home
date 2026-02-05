@@ -4,9 +4,6 @@ interface Props {
 }
 
 const { title } = Astro.props;
-
-// Ensure base path is prepended for local assets if needed
-// const base = import.meta.env.BASE_URL;
 ---
 
 <!doctype html>
@@ -21,15 +18,17 @@ const { title } = Astro.props;
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 		<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Satisfy&display=swap" rel="stylesheet">
 		<style is:global>
-			/* Fallback for local/custom fonts until files are provided */
 			@font-face {
 				font-family: 'Bright Retro';
 				src: local('Bright Retro'), local('serif');
 			}
 
 			:root {
-				--beach-sand: #f6f1eb;
-				--beach-ocean: #2a5a6b;
+				--color-terracotta: #9F6C52;
+				--color-sand: #CEB298;
+				--color-cream: #EEE7DD;
+				--color-slate: #A7B9C6;
+				--color-blue: #92ABBB;
 			}
 			
 			html, body {
@@ -37,35 +36,40 @@ const { title } = Astro.props;
 				width: 100%;
 				min-height: 100vh;
 				font-family: 'EB Garamond', serif;
-				background-color: #f6f1eb;
-				color: #2a5a6b;
+				background-color: var(--color-cream);
+				color: var(--color-terracotta);
 			}
 
 			h1, h2, h3 {
 				font-family: 'Bright Retro', serif;
+				color: var(--color-terracotta);
 			}
 
 			.cursive {
 				font-family: 'Satisfy', cursive;
 			}
+
+			.bg-ocean-blue { background-color: var(--color-blue); }
+			.text-ocean-blue { color: var(--color-blue); }
+			.border-ocean-blue { border-color: var(--color-blue); }
 		</style>
 	</head>
-	<body class="selection:bg-blue-100 selection:text-blue-900">
+	<body class="selection:bg-[#A7B9C6] selection:text-white">
 		<nav class="max-w-6xl mx-auto px-6 py-12 flex flex-col md:flex-row justify-between items-center gap-8">
 			<a href="/Sherri-Beach-Home/" class="text-4xl md:text-5xl font-normal tracking-tight hover:opacity-80 transition-opacity text-center md:text-left" style="font-family: 'Bright Retro', serif;">
 				Sherri's Beach Home
 			</a>
 			<div class="flex gap-8 font-serif text-lg uppercase tracking-widest">
-				<a href="/Sherri-Beach-Home/" class="hover:border-b border-[#2a5a6b] transition-all">Home</a>
-				<a href="/Sherri-Beach-Home/guide" class="hover:border-b border-[#2a5a6b] transition-all">Cape Guide</a>
-				<a href="/Sherri-Beach-Home/book" class="hover:border-b border-[#2a5a6b] transition-all">Book Now</a>
+				<a href="/Sherri-Beach-Home/" class="hover:border-b border-[#9F6C52] transition-all">Home</a>
+				<a href="/Sherri-Beach-Home/guide" class="hover:border-b border-[#9F6C52] transition-all">Cape Guide</a>
+				<a href="/Sherri-Beach-Home/book" class="hover:border-b border-[#9F6C52] transition-all">Book Now</a>
 			</div>
 		</nav>
 		<main>
 			<slot />
 		</main>
-		<footer class="max-w-6xl mx-auto px-6 py-20 text-center border-t border-[#2a5a6b]/10 mt-20">
-			<p class="cursive text-3xl mb-4 text-[#2a5a6b]/80">"Sun, Sand, and Memories"</p>
+		<footer class="max-w-6xl mx-auto px-6 py-20 text-center border-t border-[#9F6C52]/10 mt-20">
+			<p class="cursive text-3xl mb-4 text-[#9F6C52]/80">"Sun, Sand, and Memories"</p>
 			<p class="text-sm uppercase tracking-widest opacity-60">
 				&copy; {new Date().getFullYear()} Sherri's Beach Home · Cape San Blas, FL
 			</p>

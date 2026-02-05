@@ -5,19 +5,11 @@ export default {
     extend: {
       colors: {
         'beach': {
-          50: '#f8fafc',
-          100: '#f1f5f9',
-          200: '#e2e8f0',
-          300: '#cbd5e1',
-          400: '#94a3b8',
-          500: '#64748b',
-          600: '#475569',
-          700: '#334155',
-          800: '#1e293b',
-          900: '#0f172a',
-          'sand': '#f6f1eb',
-          'ocean': '#2a5a6b',
-          'sky': '#e0f2f1',
+          'terracotta': '#9F6C52',
+          'sand': '#CEB298',
+          'cream': '#EEE7DD',
+          'slate': '#A7B9C6',
+          'blue': '#92ABBB',
         }
       },
       fontFamily: {
