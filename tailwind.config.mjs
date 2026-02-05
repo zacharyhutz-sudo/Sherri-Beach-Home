@@ -13,9 +13,10 @@ export default {
         }
       },
       fontFamily: {
-        'header': ['"Bright Retro"', 'serif'],
-        'body': ['"EB Garamond"', 'serif'],
-        'cursive': ['"Satisfy"', 'cursive'],
+        'header': ['"Bodoni Moda"', 'serif'],
+        'subheader': ['"Montserrat"', 'sans-serif'],
+        'body': ['"Lato"', 'sans-serif'],
+        'cursive': ['"Herr Von Muellerhoff"', 'cursive'],
       }
     },
   },

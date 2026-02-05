@@ -16,13 +16,8 @@ const { title } = Astro.props;
 		<title>{title} | Sherri's Beach Home</title>
 		<link rel="preconnect" href="https://fonts.googleapis.com">
 		<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-		<link href="https://fonts.googleapis.com/css2?family=EB+Garamond:ital,wght@0,400..800;1,400..800&family=Satisfy&display=swap" rel="stylesheet">
+		<link href="https://fonts.googleapis.com/css2?family=Bodoni+Moda:ital,opsz,wght@0,6..96,400..900;1,6..96,400..900&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Lato:ital,wght@0,100;0,300;0,400;0,700;0,900;1,100;1,300;1,400;1,700;1,900&family=Herr+Von+Muellerhoff&display=swap" rel="stylesheet">
 		<style is:global>
-			@font-face {
-				font-family: 'Bright Retro';
-				src: local('Bright Retro'), local('serif');
-			}
-
 			:root {
 				--color-terracotta: #9F6C52;
 				--color-sand: #CEB298;
@@ -35,31 +30,44 @@ const { title } = Astro.props;
 				margin: 0;
 				width: 100%;
 				min-height: 100vh;
-				font-family: 'EB Garamond', serif;
+				font-family: 'Lato', sans-serif;
 				background-color: var(--color-cream);
 				color: var(--color-terracotta);
 			}
 
-			h1, h2, h3 {
-				font-family: 'Bright Retro', serif;
-				color: var(--color-terracotta);
+			h1, .font-header {
+				font-family: 'Bodoni Moda', serif;
+				text-transform: uppercase;
+				letter-spacing: 0.05em;
+			}
+
+			h2, h3, .font-subheader {
+				font-family: 'Montserrat', sans-serif;
+				text-transform: uppercase;
+				letter-spacing: 0.15em;
+				font-weight: 500;
 			}
 
 			.cursive {
-				font-family: 'Satisfy', cursive;
+				font-family: 'Herr Von Muellerhoff', cursive;
+				text-transform: none;
+				letter-spacing: normal;
 			}
 
-			.bg-ocean-blue { background-color: var(--color-blue); }
-			.text-ocean-blue { color: var(--color-blue); }
-			.border-ocean-blue { border-color: var(--color-blue); }
+			.nav-link {
+				font-family: 'Montserrat', sans-serif;
+				text-transform: uppercase;
+				letter-spacing: 0.2em;
+				font-size: 0.875rem;
+			}
 		</style>
 	</head>
 	<body class="selection:bg-[#A7B9C6] selection:text-white">
 		<nav class="max-w-6xl mx-auto px-6 py-12 flex flex-col md:flex-row justify-between items-center gap-8">
-			<a href="/Sherri-Beach-Home/" class="text-4xl md:text-5xl font-normal tracking-tight hover:opacity-80 transition-opacity text-center md:text-left" style="font-family: 'Bright Retro', serif;">
+			<a href="/Sherri-Beach-Home/" class="text-4xl md:text-5xl font-header hover:opacity-80 transition-opacity text-center md:text-left">
 				Sherri's Beach Home
 			</a>
-			<div class="flex gap-8 font-serif text-lg uppercase tracking-widest">
+			<div class="flex gap-8 nav-link">
 				<a href="/Sherri-Beach-Home/" class="hover:border-b border-[#9F6C52] transition-all">Home</a>
 				<a href="/Sherri-Beach-Home/guide" class="hover:border-b border-[#9F6C52] transition-all">Cape Guide</a>
 				<a href="/Sherri-Beach-Home/book" class="hover:border-b border-[#9F6C52] transition-all">Book Now</a>
@@ -69,8 +77,8 @@ const { title } = Astro.props;
 			<slot />
 		</main>
 		<footer class="max-w-6xl mx-auto px-6 py-20 text-center border-t border-[#9F6C52]/10 mt-20">
-			<p class="cursive text-3xl mb-4 text-[#9F6C52]/80">"Sun, Sand, and Memories"</p>
-			<p class="text-sm uppercase tracking-widest opacity-60">
+			<p class="cursive text-5xl mb-4 text-[#9F6C52]/80">Sun, Sand, and Memories</p>
+			<p class="nav-link opacity-60">
 				&copy; {new Date().getFullYear()} Sherri's Beach Home · Cape San Blas, FL
 			</p>
 		</footer>
