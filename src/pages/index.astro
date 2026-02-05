@@ -1,0 +1,47 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Home - Sherri's Beach Condo">
+	<main class="max-w-4xl mx-auto px-6 py-12">
+		<header class="text-center mb-16">
+			<h1 class="text-5xl font-bold text-blue-900 mb-4">Welcome to Paradise</h1>
+			<p class="text-xl text-gray-600 italic">Sherri Gentry's Cape San Blas Getaway</p>
+		</header>
+
+		<section class="grid md:grid-cols-2 gap-12 items-center mb-16">
+			<div>
+				<h2 class="text-3xl font-semibold text-blue-800 mb-6">About the Condo</h2>
+				<ul class="space-y-4 text-lg text-gray-700">
+					<li class="flex items-center">
+						<span class="font-bold w-32">Bedrooms:</span>
+						<span>[Number] Spacious Rooms</span>
+					</li>
+					<li class="flex items-center">
+						<span class="font-bold w-32">Bathrooms:</span>
+						<span>[Number] Full Baths</span>
+					</li>
+					<li class="flex items-center">
+						<span class="font-bold w-32">Appliances:</span>
+						<span>Modern Kitchen, Washer/Dryer, etc.</span>
+					</li>
+					<li class="flex items-center">
+						<span class="font-bold w-32">Views:</span>
+						<span>Stunning Gulf Front Views</span>
+					</li>
+				</ul>
+			</div>
+			<div class="bg-gray-200 aspect-video rounded-xl flex items-center justify-center text-gray-500 font-medium">
+				[Condo Image Placeholder]
+			</div>
+		</section>
+
+		<section class="bg-blue-50 p-8 rounded-2xl border border-blue-100 mb-16">
+			<h2 class="text-2xl font-semibold text-blue-900 mb-4 text-center">Ready to visit?</h2>
+			<div class="flex justify-center gap-6">
+				<a href="/guide" class="text-blue-700 hover:text-blue-900 font-medium border-b-2 border-blue-200 hover:border-blue-900 transition-all">View Cape Guide</a>
+				<a href="/book" class="bg-blue-600 text-white px-8 py-3 rounded-lg font-bold hover:bg-blue-700 transition-colors">Book Now</a>
+			</div>
+		</section>
+	</main>
+</Layout>

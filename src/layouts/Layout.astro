@@ -1,0 +1,45 @@
+---
+interface Props {
+	title: string;
+}
+
+const { title } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+		<title>{title}</title>
+	</head>
+	<body class="bg-white text-gray-900 selection:bg-blue-100 selection:text-blue-900">
+		<nav class="max-w-4xl mx-auto px-6 py-8 flex justify-between items-center">
+			<a href="/" class="text-2xl font-black text-blue-900 tracking-tighter hover:opacity-80 transition-opacity">
+				SHERRI'S BEACH CONDO
+			</a>
+			<div class="flex gap-6 font-medium text-gray-600">
+				<a href="/" class="hover:text-blue-900 transition-colors">Home</a>
+				<a href="/guide" class="hover:text-blue-900 transition-colors">Cape Guide</a>
+				<a href="/book" class="hover:text-blue-900 transition-colors">Book</a>
+			</div>
+		</nav>
+		<slot />
+		<footer class="max-w-4xl mx-auto px-6 py-20 text-center text-sm text-gray-400">
+			&copy; {new Date().getFullYear()} Sherri's Beach Condo · Cape San Blas, FL
+		</footer>
+	</body>
+</html>
+
+<style is:global>
+	@import "tailwindcss";
+	
+	html,
+	body {
+		margin: 0;
+		width: 100%;
+		min-height: 100vh;
+	}
+</style>
