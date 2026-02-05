@@ -5,13 +5,18 @@ import Layout from '../layouts/Layout.astro';
 <Layout title="Welcome">
 	<div class="max-w-6xl mx-auto px-6">
 		<!-- Hero Section -->
-		<section class="relative h-[70vh] rounded-3xl overflow-hidden mb-20 bg-[#A7B9C6] flex items-center justify-center">
-			<div class="absolute inset-0 bg-black/10 z-10"></div>
-			<div class="relative z-20 text-center px-4">
-				<h1 class="text-[#EEE7DD] text-6xl md:text-8xl mb-6 drop-shadow-lg">Escape to the Cape</h1>
-				<p class="cursive text-[#EEE7DD] text-5xl md:text-6xl drop-shadow-md">Your peaceful beach sanctuary awaits...</p>
+		<section class="relative h-[80vh] mb-20 flex items-center justify-center overflow-hidden">
+			<!-- Background Pattern -->
+			<div class="absolute inset-0 z-0 opacity-40 bg-repeat-x bg-contain pointer-events-none" 
+				 style="background-image: url('/Sherri-Beach-Home/images/pattern.jpg'); background-size: auto 100%;">
 			</div>
-			<div class="absolute inset-0 bg-gradient-to-b from-transparent to-[#9F6C52]/20"></div>
+			
+			<div class="relative z-20 w-full max-w-5xl mx-auto px-4">
+				<div class="bg-[#A7B9C6]/90 backdrop-blur-sm p-12 md:p-24 rounded-3xl text-center shadow-2xl">
+					<h1 class="text-[#EEE7DD] text-6xl md:text-8xl mb-6 drop-shadow-lg">Escape to the Cape</h1>
+					<p class="cursive text-[#EEE7DD] text-5xl md:text-6xl drop-shadow-md">Your peaceful beach sanctuary awaits...</p>
+				</div>
+			</div>
 		</section>
 
 		<!-- Introduction -->
