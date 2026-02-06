@@ -5,6 +5,13 @@ const bookedDates: string[] = [
   // Format: "YYYY-MM-DD"
   // Example: "2026-02-14", "2026-02-15"
 ];
+
+// Price data - custom prices per date, defaults to $210
+const defaultPrice = "$210";
+const customPrices: Record<string, string> = {
+  // Format: "YYYY-MM-DD": "$XXX"
+  // Example: "2026-07-04": "$275"
+};
 ---
 
 <div class="calendar-container">
@@ -55,7 +62,7 @@ const bookedDates: string[] = [
   </div>
 </div>
 
-<script define:vars={{ bookedDates }}>
+<script define:vars={{ bookedDates, defaultPrice, customPrices }}>
   const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 
                       'July', 'August', 'September', 'October', 'November', 'December'];
@@ -69,6 +76,11 @@ const bookedDates: string[] = [
   function isBooked(year, month, day) {
     const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
     return bookedSet.has(dateStr);
+  }
+
+  function getPrice(year, month, day) {
+    const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    return customPrices[dateStr] || defaultPrice;
   }
 
   function isToday(year, month, day) {
@@ -111,11 +123,11 @@ const bookedDates: string[] = [
     
     // Date cells
     for (let day = 1; day <= daysInMonth; day++) {
-      const booked = isBooked(displayYear, displayMonth, day);
       const today = isToday(displayYear, displayMonth, day);
       const past = isPast(displayYear, displayMonth, day);
       const dayOfWeek = (firstDay + day - 1) % 7;
-      
+      const booked = isBooked(displayYear, displayMonth, day);
+      const price = getPrice(displayYear, displayMonth, day);
       let bgClass = booked ? 'bg-[#f5d4cf]' : 'bg-[#d8f0d8]';
       let borderClass = today ? 'ring-2 ring-[#9F6C52] ring-offset-2' : '';
       let opacityClass = past ? 'opacity-50' : '';
@@ -128,8 +140,9 @@ const bookedDates: string[] = [
             <span class="font-subheader text-[8px] md:text-[10px] text-[#9F6C52]/60 tracking-wider">${dayNames[dayOfWeek]}</span>
             <span class="font-header text-sm md:text-lg text-[#9F6C52]">${day}</span>
           </div>
-          <div class="flex-1 flex items-end justify-center pb-1">
+          <div class="flex-1 flex flex-col items-center justify-end pb-1 gap-0.5">
             <span class="font-body text-[8px] md:text-xs ${statusColor} font-medium">${statusText}</span>
+            <span class="font-subheader text-[9px] md:text-sm text-[#9F6C52] font-semibold">${price}</span>
           </div>
         </div>
       `;
