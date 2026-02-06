@@ -1,0 +1,110 @@
+---
+const images = await Astro.glob('../../public/images/gallery/*.{jpg,JPG,webp,WEBP,avif,AVIF}');
+const galleryImages = images.map(img => img.default.replace('/public', '/Sherri-Beach-Home'));
+---
+
+<div class="gallery-container mb-32">
+  <div class="grid grid-cols-2 md:grid-cols-4 gap-4 auto-rows-[200px] md:auto-rows-[300px]">
+    {galleryImages.map((src, index) => (
+      <div 
+        class={`gallery-item cursor-pointer overflow-hidden rounded-xl shadow-sm hover:shadow-xl transition-all duration-500 group relative ${
+          index % 7 === 0 ? 'md:col-span-2 md:row-span-2' : 
+          index % 5 === 0 ? 'md:row-span-2' : ''
+        }`}
+        onclick={`openLightbox(${index})`}
+      >
+        <img 
+          src={src} 
+          alt="Sherri's Beach Home" 
+          class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+          loading="lazy"
+        />
+        <div class="absolute inset-0 bg-[#9F6C52]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
+          <span class="text-white bg-[#9F6C52] p-3 rounded-full shadow-lg transform translate-y-4 group-hover:translate-y-0 transition-transform duration-500">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+            </svg>
+          </span>
+        </div>
+      </div>
+    ))}
+  </div>
+
+  <!-- Lightbox Overlay -->
+  <div id="lightbox" class="fixed inset-0 z-[100] bg-[#1a1a1a]/95 backdrop-blur-md hidden flex-col items-center justify-center p-4 md:p-10 opacity-0 transition-opacity duration-300">
+    <button onclick="closeLightbox()" class="absolute top-6 right-6 text-white/50 hover:text-white transition-colors p-2">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-10 w-10" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
+      </svg>
+    </button>
+
+    <div class="relative w-full max-w-6xl flex items-center justify-center">
+      <button onclick="prevImage()" class="absolute left-0 md:-left-16 text-white/50 hover:text-white transition-colors p-4 z-10">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+        </svg>
+      </button>
+
+      <img id="lightbox-img" src="" alt="Gallery Preview" class="max-w-full max-h-[85vh] object-contain rounded-lg shadow-2xl" />
+
+      <button onclick="nextImage()" class="absolute right-0 md:-right-16 text-white/50 hover:text-white transition-colors p-4 z-10">
+        <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+        </svg>
+      </button>
+    </div>
+    
+    <div class="mt-6 text-white/60 font-subheader tracking-widest text-sm" id="lightbox-counter"></div>
+  </div>
+</div>
+
+<script is:inline define:vars={{ galleryImages }}>
+  let currentIndex = 0;
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightbox-img');
+  const counter = document.getElementById('lightbox-counter');
+
+  window.openLightbox = (index) => {
+    currentIndex = index;
+    updateLightbox();
+    lightbox.classList.remove('hidden');
+    // Force reflow for transition
+    setTimeout(() => {
+      lightbox.classList.add('flex');
+      lightbox.style.opacity = '1';
+    }, 10);
+    document.body.style.overflow = 'hidden';
+  };
+
+  window.closeLightbox = () => {
+    lightbox.style.opacity = '0';
+    setTimeout(() => {
+      lightbox.classList.add('hidden');
+      lightbox.classList.remove('flex');
+    }, 300);
+    document.body.style.overflow = '';
+  };
+
+  window.nextImage = () => {
+    currentIndex = (currentIndex + 1) % galleryImages.length;
+    updateLightbox();
+  };
+
+  window.prevImage = () => {
+    currentIndex = (currentIndex - 1 + galleryImages.length) % galleryImages.length;
+    updateLightbox();
+  };
+
+  function updateLightbox() {
+    lightboxImg.src = galleryImages[currentIndex];
+    counter.textContent = `${currentIndex + 1} / ${galleryImages.length}`;
+  }
+
+  // Keyboard navigation
+  document.addEventListener('keydown', (e) => {
+    if (lightbox.classList.contains('hidden')) return;
+    if (e.key === 'ArrowRight') nextImage();
+    if (e.key === 'ArrowLeft') prevImage();
+    if (e.key === 'Escape') closeLightbox();
+  });
+</script>
