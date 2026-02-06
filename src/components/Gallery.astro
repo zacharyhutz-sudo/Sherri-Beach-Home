@@ -1,6 +1,9 @@
 ---
-const images = await Astro.glob('../../public/images/gallery/*.{jpg,JPG,webp,WEBP,avif,AVIF}');
-const galleryImages = images.map(img => img.default.replace('/public', '/Sherri-Beach-Home')).sort();
+const images = import.meta.glob('../../public/images/gallery/*.{jpg,JPG,webp,WEBP,avif,AVIF}', { eager: true });
+const galleryImages = Object.values(images).map(img => {
+  const src = typeof img.default === 'string' ? img.default : img.default.src;
+  return src.replace('/public', '/Sherri-Beach-Home');
+}).sort();
 ---
 
 <div class="gallery-container mb-32">
