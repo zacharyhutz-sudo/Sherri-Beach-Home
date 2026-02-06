@@ -1,0 +1,184 @@
+---
+// Calendar component for Sherri's Beach Home
+// Availability data - dates listed here are BOOKED, all others are available
+const bookedDates: string[] = [
+  // Format: "YYYY-MM-DD"
+  // Example: "2026-02-14", "2026-02-15"
+];
+---
+
+<div class="calendar-container">
+  <!-- Month Navigation -->
+  <div class="flex items-center justify-center gap-6 mb-8">
+    <button id="prev-month" class="p-3 rounded-full hover:bg-[#A7B9C6]/20 transition-colors" aria-label="Previous month">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-[#9F6C52]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg>
+    </button>
+    <h3 id="month-year" class="text-2xl font-header text-[#9F6C52] min-w-[240px] text-center"></h3>
+    <button id="next-month" class="p-3 rounded-full hover:bg-[#A7B9C6]/20 transition-colors" aria-label="Next month">
+      <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-[#9F6C52]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Calendar Grid -->
+  <div class="bg-white/50 rounded-2xl p-4 md:p-6 shadow-sm">
+    <!-- Day Headers -->
+    <div class="grid grid-cols-7 gap-2 mb-2">
+      <div class="text-center font-subheader text-xs text-[#A7B9C6] py-2">Sun</div>
+      <div class="text-center font-subheader text-xs text-[#A7B9C6] py-2">Mon</div>
+      <div class="text-center font-subheader text-xs text-[#A7B9C6] py-2">Tue</div>
+      <div class="text-center font-subheader text-xs text-[#A7B9C6] py-2">Wed</div>
+      <div class="text-center font-subheader text-xs text-[#A7B9C6] py-2">Thu</div>
+      <div class="text-center font-subheader text-xs text-[#A7B9C6] py-2">Fri</div>
+      <div class="text-center font-subheader text-xs text-[#A7B9C6] py-2">Sat</div>
+    </div>
+    
+    <!-- Date Grid -->
+    <div id="calendar-grid" class="grid grid-cols-7 gap-2">
+      <!-- Populated by JavaScript -->
+    </div>
+  </div>
+
+  <!-- Legend -->
+  <div class="flex justify-center gap-8 mt-6">
+    <div class="flex items-center gap-2">
+      <div class="w-4 h-4 rounded bg-[#d8f0d8] border border-[#b8d8b8]"></div>
+      <span class="text-sm font-body text-[#9F6C52]/70">Available</span>
+    </div>
+    <div class="flex items-center gap-2">
+      <div class="w-4 h-4 rounded bg-[#f5d4cf] border border-[#e8b8b0]"></div>
+      <span class="text-sm font-body text-[#9F6C52]/70">Booked</span>
+    </div>
+  </div>
+</div>
+
+<script define:vars={{ bookedDates }}>
+  const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+  const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 
+                      'July', 'August', 'September', 'October', 'November', 'December'];
+  
+  let currentDate = new Date();
+  let displayMonth = currentDate.getMonth();
+  let displayYear = currentDate.getFullYear();
+
+  const bookedSet = new Set(bookedDates);
+
+  function isBooked(year, month, day) {
+    const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    return bookedSet.has(dateStr);
+  }
+
+  function isToday(year, month, day) {
+    const today = new Date();
+    return today.getFullYear() === year && 
+           today.getMonth() === month && 
+           today.getDate() === day;
+  }
+
+  function isPast(year, month, day) {
+    const date = new Date(year, month, day);
+    const today = new Date();
+    today.setHours(0, 0, 0, 0);
+    return date < today;
+  }
+
+  function getDaysInMonth(year, month) {
+    return new Date(year, month + 1, 0).getDate();
+  }
+
+  function getFirstDayOfMonth(year, month) {
+    return new Date(year, month, 1).getDay();
+  }
+
+  function renderCalendar() {
+    const grid = document.getElementById('calendar-grid');
+    const monthYear = document.getElementById('month-year');
+    
+    monthYear.textContent = `${monthNames[displayMonth]} ${displayYear}`;
+    
+    const daysInMonth = getDaysInMonth(displayYear, displayMonth);
+    const firstDay = getFirstDayOfMonth(displayYear, displayMonth);
+    
+    let html = '';
+    
+    // Empty cells for days before the first of the month
+    for (let i = 0; i < firstDay; i++) {
+      html += '<div class="aspect-square"></div>';
+    }
+    
+    // Date cells
+    for (let day = 1; day <= daysInMonth; day++) {
+      const booked = isBooked(displayYear, displayMonth, day);
+      const today = isToday(displayYear, displayMonth, day);
+      const past = isPast(displayYear, displayMonth, day);
+      const dayOfWeek = (firstDay + day - 1) % 7;
+      
+      let bgClass = booked ? 'bg-[#f5d4cf]' : 'bg-[#d8f0d8]';
+      let borderClass = today ? 'ring-2 ring-[#9F6C52] ring-offset-2' : '';
+      let opacityClass = past ? 'opacity-50' : '';
+      let statusText = booked ? 'Booked' : 'Available';
+      let statusColor = booked ? 'text-[#c45a4a]' : 'text-[#5a9a5a]';
+      
+      html += `
+        <div class="aspect-square ${bgClass} ${borderClass} ${opacityClass} rounded-lg p-1.5 md:p-2 flex flex-col transition-all hover:shadow-md">
+          <div class="flex justify-between items-start">
+            <span class="font-subheader text-[8px] md:text-[10px] text-[#9F6C52]/60 tracking-wider">${dayNames[dayOfWeek]}</span>
+            <span class="font-header text-sm md:text-lg text-[#9F6C52]">${day}</span>
+          </div>
+          <div class="flex-1 flex items-end justify-center pb-1">
+            <span class="font-body text-[8px] md:text-xs ${statusColor} font-medium">${statusText}</span>
+          </div>
+        </div>
+      `;
+    }
+    
+    grid.innerHTML = html;
+  }
+
+  // Event listeners
+  document.getElementById('prev-month').addEventListener('click', () => {
+    displayMonth--;
+    if (displayMonth < 0) {
+      displayMonth = 11;
+      displayYear--;
+    }
+    renderCalendar();
+  });
+
+  document.getElementById('next-month').addEventListener('click', () => {
+    displayMonth++;
+    if (displayMonth > 11) {
+      displayMonth = 0;
+      displayYear++;
+    }
+    renderCalendar();
+  });
+
+  // Initial render
+  renderCalendar();
+
+  // Update at midnight to refresh "today" highlight
+  function scheduleNextDayUpdate() {
+    const now = new Date();
+    const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+    const msUntilMidnight = tomorrow - now;
+    
+    setTimeout(() => {
+      currentDate = new Date();
+      renderCalendar();
+      scheduleNextDayUpdate();
+    }, msUntilMidnight);
+  }
+  
+  scheduleNextDayUpdate();
+</script>
+
+<style>
+  .calendar-container {
+    max-width: 700px;
+    margin: 0 auto;
+  }
+</style>
