@@ -1,6 +1,6 @@
 ---
 const images = await Astro.glob('../../public/images/gallery/*.{jpg,JPG,webp,WEBP,avif,AVIF}');
-const galleryImages = images.map(img => img.default.replace('/public', '/Sherri-Beach-Home'));
+const galleryImages = images.map(img => img.default.replace('/public', '/Sherri-Beach-Home')).sort();
 ---
 
 <div class="gallery-container mb-32">
