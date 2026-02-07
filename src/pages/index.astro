@@ -5,39 +5,42 @@ import Gallery from '../components/Gallery.astro';
 
 <Layout title="Welcome">
 	<div class="max-w-6xl mx-auto px-6">
-		<!-- Hero Section -->
-		<section class="max-w-4xl mx-auto pt-16 pb-12 text-center bg-[#b6b791] rounded-b-[3rem] -mt-6">
-			<div class="relative inline-block mb-12">
-				<!-- Main Polaroid Container -->
-				<div class="bg-white p-1 pb-4 shadow-2xl rounded-sm border border-gray-100 relative z-0">
-					<img 
-						src="/Sherri-Beach-Home/images/hero-polaroid.jpg" 
-						alt="Cape San Blas" 
-						class="w-full max-w-[800px] aspect-video object-cover grayscale-[0.1] contrast-[1.05]"
-					/>
-				</div>
+		<!-- Hero & Introduction Section with Solid Background -->
+		<div class="bg-[#b6b791] w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] relative pt-16 pb-24 mb-24">
+			<!-- Hero Section -->
+			<section class="max-w-4xl mx-auto text-center">
+				<div class="relative inline-block mb-12">
+					<!-- Main Polaroid Container -->
+					<div class="bg-white p-1 pb-4 shadow-2xl rounded-sm border border-gray-100 relative z-0">
+						<img 
+							src="/Sherri-Beach-Home/images/hero-polaroid.jpg" 
+							alt="Cape San Blas" 
+							class="w-full max-w-[800px] aspect-video object-cover grayscale-[0.1] contrast-[1.05]"
+						/>
+					</div>
 
-				<!-- Smaller Polaroid (Overlapping Bottom Right) -->
-				<div class="absolute -bottom-6 -right-6 md:-right-12 w-32 md:w-48 bg-white p-0.5 pb-3 shadow-2xl rounded-sm border border-gray-100 transform rotate-6 z-10 transition-transform hover:rotate-3 duration-500">
-					<img 
-						src="/Sherri-Beach-Home/images/hero-small.webp" 
-						alt="Beach View" 
-						class="w-full aspect-square object-cover grayscale-[0.05]"
-					/>
+					<!-- Smaller Polaroid (Overlapping Bottom Right) -->
+					<div class="absolute -bottom-6 -right-6 md:-right-12 w-32 md:w-48 bg-white p-0.5 pb-3 shadow-2xl rounded-sm border border-gray-100 transform rotate-6 z-10 transition-transform hover:rotate-3 duration-500">
+						<img 
+							src="/Sherri-Beach-Home/images/hero-small.webp" 
+							alt="Beach View" 
+							class="w-full aspect-square object-cover grayscale-[0.05]"
+						/>
+					</div>
 				</div>
-			</div>
-		</section>
+			</section>
 
-		<!-- Introduction -->
-		<section class="max-w-3xl mx-auto text-left mb-24">
-			<h2 class="text-3xl md:text-4xl mb-8 font-header text-[#9F6C52]">A Coastal Retreat</h2>
-			<div class="text-lg md:text-xl leading-relaxed space-y-6 opacity-90">
-				<p>
-					Welcome to our slice of paradise in Cape San Blas, Florida. Nestled between the crystal-clear Gulf of Mexico and the calm St. Joseph Bay, 
-					Sherri's Beach Home offers the perfect blend of luxury, comfort, and natural beauty.
-				</p>
-			</div>
-		</section>
+			<!-- Introduction -->
+			<section class="max-w-3xl mx-auto text-left">
+				<h2 class="text-3xl md:text-4xl mb-8 font-header text-white">A Coastal Retreat</h2>
+				<div class="text-lg md:text-xl leading-relaxed space-y-6 text-white/90">
+					<p>
+						Welcome to our slice of paradise in Cape San Blas, Florida. Nestled between the crystal-clear Gulf of Mexico and the calm St. Joseph Bay, 
+						Sherri's Beach Home offers the perfect blend of luxury, comfort, and natural beauty.
+					</p>
+				</div>
+			</section>
+		</div>
 
 		<Gallery />
 
