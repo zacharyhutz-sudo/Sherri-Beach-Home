@@ -327,17 +327,51 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
 			let pricing = currentData.pricing || [];
 			const defaultPrice = currentData.defaultPrice || '$210';
 
-			// Remove any existing pricing that overlaps with this date range
-			pricing = pricing.filter(p => {
+			// Surgical split: preserve non-overlapping portions of existing ranges
+			const newStart = new Date(startDate);
+			const newEnd = new Date(endDate);
+			const updatedPricing = [];
+
+			for (const p of pricing) {
 				const existingStart = new Date(p.startDate);
 				const existingEnd = new Date(p.endDate);
-				const newStart = new Date(startDate);
-				const newEnd = new Date(endDate);
-				// Keep if no overlap
-				return existingEnd < newStart || existingStart > newEnd;
-			});
 
-			pricing.push(pricingEntry);
+				// No overlap — keep as-is
+				if (existingEnd < newStart || existingStart > newEnd) {
+					updatedPricing.push(p);
+					continue;
+				}
+
+				// Overlap exists — split the existing range
+
+				// Part before the new range
+				if (existingStart < newStart) {
+					const dayBefore = new Date(newStart);
+					dayBefore.setDate(dayBefore.getDate() - 1);
+					updatedPricing.push({
+						id: generateId(),
+						startDate: p.startDate,
+						endDate: dayBefore.toISOString().split('T')[0],
+						price: p.price
+					});
+				}
+
+				// Part after the new range
+				if (existingEnd > newEnd) {
+					const dayAfter = new Date(newEnd);
+					dayAfter.setDate(dayAfter.getDate() + 1);
+					updatedPricing.push({
+						id: generateId(),
+						startDate: dayAfter.toISOString().split('T')[0],
+						endDate: p.endDate,
+						price: p.price
+					});
+				}
+			}
+
+			// Add the new pricing entry
+			updatedPricing.push(pricingEntry);
+			pricing = updatedPricing;
 
 			const response = await fetch(API_URL, {
 				method: 'POST',
