@@ -6,28 +6,22 @@ import Gallery from '../components/Gallery.astro';
 <Layout title="Welcome">
 	<div class="max-w-6xl mx-auto px-6">
 		<!-- Hero Section -->
-		<section class="max-w-4xl mx-auto pt-16 pb-12 text-center relative">
+		<section class="max-w-4xl mx-auto pt-16 pb-12 text-center">
 			<div class="relative inline-block mb-12">
 				<!-- Polaroid Container -->
-				<div class="bg-white p-4 pb-16 shadow-2xl rounded-sm border border-gray-100 transform rotate-[-1deg]">
+				<div class="bg-white p-4 pb-16 shadow-2xl rounded-sm border border-gray-100">
 					<img 
 						src="/Sherri-Beach-Home/images/hero-polaroid.jpg" 
 						alt="Cape San Blas" 
 						class="w-full max-w-[800px] aspect-video object-cover grayscale-[0.1] contrast-[1.05]"
 					/>
 				</div>
-				
-				<!-- Overlapping Text -->
-				<div class="absolute -bottom-4 -left-8 transform -rotate-3 z-10">
-					<h2 class="text-3xl md:text-5xl font-header text-[#9F6C52] drop-shadow-sm whitespace-nowrap bg-white/40 backdrop-blur-[2px] px-4 py-2 rounded-sm">
-						A Coastal Retreat
-					</h2>
-				</div>
 			</div>
 		</section>
 
 		<!-- Introduction -->
-		<section class="max-w-3xl mx-auto text-center mb-24">
+		<section class="max-w-3xl mx-auto text-left mb-24">
+			<h2 class="text-3xl md:text-4xl mb-8 font-header text-[#9F6C52]">A Coastal Retreat</h2>
 			<div class="text-lg md:text-xl leading-relaxed space-y-6 opacity-90">
 				<p>
 					Welcome to our slice of paradise in Cape San Blas, Florida. Nestled between the crystal-clear Gulf of Mexico and the calm St. Joseph Bay, 
