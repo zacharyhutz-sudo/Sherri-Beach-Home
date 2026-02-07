@@ -223,17 +223,34 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
             </div>
             ${booking.note ? `<div class="font-body text-xs text-[#9F6C52]/60 italic mt-1">${booking.note}</div>` : ''}
           </div>
-          <button 
-            class="delete-booking text-xs text-red-400 hover:text-red-600 font-subheader transition-colors"
-            data-id="${booking.id}"
-          >
-            Delete
-          </button>
+          <div class="flex gap-3">
+            <button 
+              class="edit-booking text-xs text-[#92ABBB] hover:text-[#9F6C52] font-subheader transition-colors"
+              data-booking='${JSON.stringify(booking).replace(/'/g, "&#39;")}'
+            >
+              Edit
+            </button>
+            <button 
+              class="delete-booking text-xs text-red-400 hover:text-red-600 font-subheader transition-colors"
+              data-id="${booking.id}"
+            >
+              Delete
+            </button>
+          </div>
         </div>
       `;
     }
     
     listContent.innerHTML = html;
+    
+    // Add edit handlers
+    listContent.querySelectorAll('.edit-booking').forEach(btn => {
+      btn.addEventListener('click', (e) => {
+        const booking = JSON.parse(e.target.dataset.booking);
+        // Dispatch event for the form to catch
+        window.dispatchEvent(new CustomEvent('editBooking', { detail: booking }));
+      });
+    });
     
     // Add delete handlers
     listContent.querySelectorAll('.delete-booking').forEach(btn => {

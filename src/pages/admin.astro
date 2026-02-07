@@ -131,6 +131,10 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
 	const form = document.getElementById('booking-form');
 	const formStatus = document.getElementById('form-status');
 	const clearBtn = document.getElementById('clear-form');
+	const submitBtn = form?.querySelector('button[type="submit"]');
+	
+	// Track if we're editing an existing booking
+	let editingId = null;
 
 	function showStatus(message, isError = false) {
 		formStatus.textContent = message;
@@ -146,8 +150,37 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
 		return Date.now().toString(36) + Math.random().toString(36).substr(2);
 	}
 
+	function setEditMode(booking) {
+		editingId = booking.id;
+		
+		// Populate form fields
+		document.getElementById('name').value = booking.name || '';
+		document.getElementById('startDate').value = booking.startDate || '';
+		document.getElementById('endDate').value = booking.endDate || '';
+		document.getElementById('availability').value = booking.availability || 'booked';
+		document.getElementById('price').value = booking.price || '$210';
+		document.getElementById('note').value = booking.note || '';
+		
+		// Update button text
+		if (submitBtn) submitBtn.textContent = 'Update Booking';
+		
+		// Scroll to form
+		form?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+	}
+
+	function clearEditMode() {
+		editingId = null;
+		form?.reset();
+		if (submitBtn) submitBtn.textContent = 'Save Booking';
+	}
+
+	// Listen for edit events from AdminCalendar
+	window.addEventListener('editBooking', (e) => {
+		setEditMode(e.detail);
+	});
+
 	clearBtn?.addEventListener('click', () => {
-		form.reset();
+		clearEditMode();
 	});
 
 	form?.addEventListener('submit', async (e) => {
@@ -163,8 +196,8 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
 			return;
 		}
 
-		const newBooking = {
-			id: generateId(),
+		const bookingData = {
+			id: editingId || generateId(),
 			name: formData.get('name') || '',
 			startDate: startDate,
 			endDate: endDate,
@@ -177,11 +210,16 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
 			// Fetch current data
 			const currentResponse = await fetch(API_URL);
 			const currentData = await currentResponse.json();
-			const bookings = currentData.bookings || [];
+			let bookings = currentData.bookings || [];
 			const defaultPrice = currentData.defaultPrice || '$210';
 
-			// Add new booking
-			bookings.push(newBooking);
+			if (editingId) {
+				// Update existing booking
+				bookings = bookings.map(b => b.id === editingId ? bookingData : b);
+			} else {
+				// Add new booking
+				bookings.push(bookingData);
+			}
 
 			// Save to API
 			const response = await fetch(API_URL, {
@@ -191,8 +229,8 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
 			});
 
 			if (response.ok) {
-				showStatus('Booking saved successfully!');
-				form.reset();
+				showStatus(editingId ? 'Booking updated!' : 'Booking saved!');
+				clearEditMode();
 				
 				// Refresh the admin calendar
 				if (window.adminCalendarRefresh) {
