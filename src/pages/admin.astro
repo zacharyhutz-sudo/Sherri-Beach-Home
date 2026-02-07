@@ -302,7 +302,12 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
 		const formData = new FormData(pricingForm);
 		const startDate = formData.get('startDate');
 		const endDate = formData.get('endDate');
-		const price = formData.get('price');
+		let price = formData.get('price').trim();
+		
+		// Auto-add $ if missing
+		if (price && !price.startsWith('$')) {
+			price = '$' + price;
+		}
 		
 		if (new Date(endDate) < new Date(startDate)) {
 			showPricingStatus('End date must be after start date', true);
@@ -319,8 +324,18 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
 		try {
 			const currentData = await fetch(API_URL).then(r => r.json());
 			const bookings = currentData.bookings || [];
-			const pricing = currentData.pricing || [];
+			let pricing = currentData.pricing || [];
 			const defaultPrice = currentData.defaultPrice || '$210';
+
+			// Remove any existing pricing that overlaps with this date range
+			pricing = pricing.filter(p => {
+				const existingStart = new Date(p.startDate);
+				const existingEnd = new Date(p.endDate);
+				const newStart = new Date(startDate);
+				const newEnd = new Date(endDate);
+				// Keep if no overlap
+				return existingEnd < newStart || existingStart > newEnd;
+			});
 
 			pricing.push(pricingEntry);
 
