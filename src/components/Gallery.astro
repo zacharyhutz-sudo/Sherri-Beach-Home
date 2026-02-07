@@ -1,5 +1,5 @@
 ---
-const images = import.meta.glob('../../public/images/gallery/*.{jpg,JPG,webp,WEBP,avif,AVIF}', { eager: true });
+const images = import.meta.glob('../../public/images/gallery/*.{jpg,JPG,jpeg,JPEG,webp,WEBP,avif,AVIF}', { eager: true });
 const galleryImages = Object.values(images).map(img => {
   const src = typeof img.default === 'string' ? img.default : img.default.src;
   return src.replace('/public', '/Sherri-Beach-Home');
