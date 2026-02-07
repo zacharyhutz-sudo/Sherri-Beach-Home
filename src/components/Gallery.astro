@@ -7,27 +7,6 @@ const galleryImages = Object.values(images).map(img => {
 ---
 
 <div class="gallery-wrapper relative mb-32 group/gallery">
-  <!-- Navigation Buttons -->
-  <button 
-    id="gallery-prev"
-    class="absolute left-4 top-1/2 -translate-y-1/2 z-20 bg-white/80 hover:bg-white p-3 shadow-lg transition-all opacity-0 group-hover/gallery:opacity-100 disabled:opacity-0"
-    aria-label="Previous images"
-  >
-    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[#9F6C52]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
-    </svg>
-  </button>
-
-  <button 
-    id="gallery-next"
-    class="absolute right-4 top-1/2 -translate-y-1/2 z-20 bg-white/80 hover:bg-white p-3 shadow-lg transition-all opacity-0 group-hover/gallery:opacity-100 disabled:opacity-0"
-    aria-label="Next images"
-  >
-    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[#9F6C52]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
-    </svg>
-  </button>
-
   <!-- Scrolling Container -->
   <div 
     id="gallery-scroll"
@@ -59,6 +38,29 @@ const galleryImages = Object.values(images).map(img => {
         </div>
       ))}
     </div>
+  </div>
+
+  <!-- Navigation Buttons Underneath -->
+  <div class="flex justify-center gap-4 mt-8">
+    <button 
+      id="gallery-prev"
+      class="bg-white hover:bg-[#92ABBB] hover:text-white p-3 shadow-sm transition-all rounded-full border border-[#92ABBB]/20 group/btn"
+      aria-label="Previous images"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[#9F6C52] group-hover/btn:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
+      </svg>
+    </button>
+
+    <button 
+      id="gallery-next"
+      class="bg-white hover:bg-[#92ABBB] hover:text-white p-3 shadow-sm transition-all rounded-full border border-[#92ABBB]/20 group/btn"
+      aria-label="Next images"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[#9F6C52] group-hover/btn:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
+      </svg>
+    </button>
   </div>
 
   <!-- Lightbox Overlay -->
