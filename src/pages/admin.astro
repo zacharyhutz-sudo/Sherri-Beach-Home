@@ -16,54 +16,54 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
 		<section class="mb-10 md:mb-16 grid lg:grid-cols-2 gap-6 md:gap-8">
 			<!-- Booking Form (Left) -->
 			<div>
-				<h2 class="text-xl font-subheader text-[#92ABBB] mb-6 text-center">Bookings</h2>
+				<h2 class="text-lg md:text-xl font-subheader text-[#92ABBB] mb-4 md:mb-6 text-center">Bookings</h2>
 				
-				<form id="booking-form" class="bg-white/50 rounded-2xl p-6 shadow-sm">
-					<div class="space-y-4">
+				<form id="booking-form" class="bg-white/50 rounded-2xl p-4 md:p-6 shadow-sm">
+					<div class="space-y-3 md:space-y-4">
 						<!-- Name -->
 						<div>
-							<label for="name" class="block font-subheader text-xs text-[#9F6C52] mb-2 tracking-wider">Guest Name</label>
+							<label for="name" class="block font-subheader text-xs text-[#9F6C52] mb-1.5 md:mb-2 tracking-wider">Guest Name</label>
 							<input 
 								type="text" 
 								id="name" 
 								name="name"
 								placeholder="e.g., Smith Family"
-								class="w-full px-4 py-3 bg-white/70 border border-[#A7B9C6]/30 rounded-lg font-body text-[#9F6C52] focus:outline-none focus:border-[#92ABBB] transition-colors"
+								class="w-full px-3 md:px-4 py-3 md:py-3 bg-white/70 border border-[#A7B9C6]/30 rounded-lg font-body text-base text-[#9F6C52] focus:outline-none focus:border-[#92ABBB] transition-colors"
 							/>
 						</div>
 
 						<!-- Dates Row -->
-						<div class="grid grid-cols-2 gap-4">
+						<div class="grid grid-cols-2 gap-2 md:gap-4">
 							<div>
-								<label for="startDate" class="block font-subheader text-xs text-[#9F6C52] mb-2 tracking-wider">Start *</label>
+								<label for="startDate" class="block font-subheader text-xs text-[#9F6C52] mb-1.5 md:mb-2 tracking-wider">Start *</label>
 								<input 
 									type="date" 
 									id="startDate" 
 									name="startDate"
 									required
-									class="w-full px-4 py-3 bg-white/70 border border-[#A7B9C6]/30 rounded-lg font-body text-[#9F6C52] focus:outline-none focus:border-[#92ABBB] transition-colors"
+									class="w-full px-2 md:px-4 py-3 bg-white/70 border border-[#A7B9C6]/30 rounded-lg font-body text-sm md:text-base text-[#9F6C52] focus:outline-none focus:border-[#92ABBB] transition-colors"
 								/>
 							</div>
 							<div>
-								<label for="endDate" class="block font-subheader text-xs text-[#9F6C52] mb-2 tracking-wider">End *</label>
+								<label for="endDate" class="block font-subheader text-xs text-[#9F6C52] mb-1.5 md:mb-2 tracking-wider">End *</label>
 								<input 
 									type="date" 
 									id="endDate" 
 									name="endDate"
 									required
-									class="w-full px-4 py-3 bg-white/70 border border-[#A7B9C6]/30 rounded-lg font-body text-[#9F6C52] focus:outline-none focus:border-[#92ABBB] transition-colors"
+									class="w-full px-2 md:px-4 py-3 bg-white/70 border border-[#A7B9C6]/30 rounded-lg font-body text-sm md:text-base text-[#9F6C52] focus:outline-none focus:border-[#92ABBB] transition-colors"
 								/>
 							</div>
 						</div>
 
 						<!-- Availability -->
 						<div>
-							<label for="availability" class="block font-subheader text-xs text-[#9F6C52] mb-2 tracking-wider">Status *</label>
+							<label for="availability" class="block font-subheader text-xs text-[#9F6C52] mb-1.5 md:mb-2 tracking-wider">Status *</label>
 							<select 
 								id="availability" 
 								name="availability"
 								required
-								class="w-full px-4 py-3 bg-white/70 border border-[#A7B9C6]/30 rounded-lg font-body text-[#9F6C52] focus:outline-none focus:border-[#92ABBB] transition-colors"
+								class="w-full px-3 md:px-4 py-3 bg-white/70 border border-[#A7B9C6]/30 rounded-lg font-body text-base text-[#9F6C52] focus:outline-none focus:border-[#92ABBB] transition-colors"
 							>
 								<option value="booked">Booked</option>
 								<option value="available">Available</option>
@@ -72,29 +72,29 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
 
 						<!-- Note -->
 						<div>
-							<label for="note" class="block font-subheader text-xs text-[#9F6C52] mb-2 tracking-wider">Note (Private)</label>
+							<label for="note" class="block font-subheader text-xs text-[#9F6C52] mb-1.5 md:mb-2 tracking-wider">Note (Private)</label>
 							<textarea 
 								id="note" 
 								name="note"
 								rows="2"
 								placeholder="e.g., Returning guest"
-								class="w-full px-4 py-3 bg-white/70 border border-[#A7B9C6]/30 rounded-lg font-body text-[#9F6C52] focus:outline-none focus:border-[#92ABBB] transition-colors resize-none"
+								class="w-full px-3 md:px-4 py-3 bg-white/70 border border-[#A7B9C6]/30 rounded-lg font-body text-base text-[#9F6C52] focus:outline-none focus:border-[#92ABBB] transition-colors resize-none"
 							></textarea>
 						</div>
 					</div>
 
 					<!-- Buttons -->
-					<div class="mt-6 flex gap-3">
+					<div class="mt-5 md:mt-6 flex gap-2 md:gap-3">
 						<button 
 							type="submit"
-							class="flex-1 bg-[#92ABBB] text-[#EEE7DD] py-3 rounded-xl font-subheader text-sm tracking-widest hover:bg-[#A7B9C6] shadow-lg hover:shadow-xl transition-all"
+							class="flex-1 bg-[#92ABBB] text-[#EEE7DD] py-3.5 md:py-3 rounded-xl font-subheader text-sm tracking-widest hover:bg-[#A7B9C6] active:bg-[#8199a8] shadow-lg hover:shadow-xl transition-all"
 						>
 							Save Booking
 						</button>
 						<button 
 							type="button"
 							id="clear-booking"
-							class="px-4 py-3 border border-[#A7B9C6]/50 text-[#9F6C52] rounded-xl font-subheader text-xs tracking-widest hover:bg-white/50 transition-all"
+							class="px-4 py-3.5 md:py-3 border border-[#A7B9C6]/50 text-[#9F6C52] rounded-xl font-subheader text-xs tracking-widest hover:bg-white/50 active:bg-white/70 transition-all"
 						>
 							Clear
 						</button>
@@ -106,44 +106,45 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
 
 			<!-- Pricing Form (Right) -->
 			<div>
-				<h2 class="text-xl font-subheader text-[#92ABBB] mb-6 text-center">Pricing</h2>
+				<h2 class="text-lg md:text-xl font-subheader text-[#92ABBB] mb-4 md:mb-6 text-center">Pricing</h2>
 				
-				<form id="pricing-form" class="bg-white/50 rounded-2xl p-6 shadow-sm">
-					<div class="space-y-4">
+				<form id="pricing-form" class="bg-white/50 rounded-2xl p-4 md:p-6 shadow-sm">
+					<div class="space-y-3 md:space-y-4">
 						<!-- Dates Row -->
-						<div class="grid grid-cols-2 gap-4">
+						<div class="grid grid-cols-2 gap-2 md:gap-4">
 							<div>
-								<label for="priceStartDate" class="block font-subheader text-xs text-[#9F6C52] mb-2 tracking-wider">Start *</label>
+								<label for="priceStartDate" class="block font-subheader text-xs text-[#9F6C52] mb-1.5 md:mb-2 tracking-wider">Start *</label>
 								<input 
 									type="date" 
 									id="priceStartDate" 
 									name="startDate"
 									required
-									class="w-full px-4 py-3 bg-white/70 border border-[#A7B9C6]/30 rounded-lg font-body text-[#9F6C52] focus:outline-none focus:border-[#92ABBB] transition-colors"
+									class="w-full px-2 md:px-4 py-3 bg-white/70 border border-[#A7B9C6]/30 rounded-lg font-body text-sm md:text-base text-[#9F6C52] focus:outline-none focus:border-[#92ABBB] transition-colors"
 								/>
 							</div>
 							<div>
-								<label for="priceEndDate" class="block font-subheader text-xs text-[#9F6C52] mb-2 tracking-wider">End *</label>
+								<label for="priceEndDate" class="block font-subheader text-xs text-[#9F6C52] mb-1.5 md:mb-2 tracking-wider">End *</label>
 								<input 
 									type="date" 
 									id="priceEndDate" 
 									name="endDate"
 									required
-									class="w-full px-4 py-3 bg-white/70 border border-[#A7B9C6]/30 rounded-lg font-body text-[#9F6C52] focus:outline-none focus:border-[#92ABBB] transition-colors"
+									class="w-full px-2 md:px-4 py-3 bg-white/70 border border-[#A7B9C6]/30 rounded-lg font-body text-sm md:text-base text-[#9F6C52] focus:outline-none focus:border-[#92ABBB] transition-colors"
 								/>
 							</div>
 						</div>
 
 						<!-- Price -->
 						<div>
-							<label for="price" class="block font-subheader text-xs text-[#9F6C52] mb-2 tracking-wider">Price per Night *</label>
+							<label for="price" class="block font-subheader text-xs text-[#9F6C52] mb-1.5 md:mb-2 tracking-wider">Price per Night *</label>
 							<input 
 								type="text" 
 								id="price" 
 								name="price"
+								inputmode="decimal"
 								required
 								placeholder="$210"
-								class="w-full px-4 py-3 bg-white/70 border border-[#A7B9C6]/30 rounded-lg font-body text-[#9F6C52] focus:outline-none focus:border-[#92ABBB] transition-colors"
+								class="w-full px-3 md:px-4 py-3 bg-white/70 border border-[#A7B9C6]/30 rounded-lg font-body text-base text-[#9F6C52] focus:outline-none focus:border-[#92ABBB] transition-colors"
 							/>
 						</div>
 
@@ -153,17 +154,17 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
 					</div>
 
 					<!-- Buttons -->
-					<div class="mt-6 flex gap-3">
+					<div class="mt-5 md:mt-6 flex gap-2 md:gap-3">
 						<button 
 							type="submit"
-							class="flex-1 bg-[#9F6C52] text-[#EEE7DD] py-3 rounded-xl font-subheader text-sm tracking-widest hover:bg-[#8a5d46] shadow-lg hover:shadow-xl transition-all"
+							class="flex-1 bg-[#9F6C52] text-[#EEE7DD] py-3.5 md:py-3 rounded-xl font-subheader text-sm tracking-widest hover:bg-[#8a5d46] active:bg-[#7a5240] shadow-lg hover:shadow-xl transition-all"
 						>
 							Set Price
 						</button>
 						<button 
 							type="button"
 							id="clear-pricing"
-							class="px-4 py-3 border border-[#A7B9C6]/50 text-[#9F6C52] rounded-xl font-subheader text-xs tracking-widest hover:bg-white/50 transition-all"
+							class="px-4 py-3.5 md:py-3 border border-[#A7B9C6]/50 text-[#9F6C52] rounded-xl font-subheader text-xs tracking-widest hover:bg-white/50 active:bg-white/70 transition-all"
 						>
 							Clear
 						</button>
@@ -173,8 +174,8 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
 				</form>
 
 				<!-- Pricing List -->
-				<div id="pricing-list" class="mt-6 bg-white/30 rounded-xl p-4">
-					<h4 class="font-subheader text-xs text-[#9F6C52] mb-3 tracking-wider">Custom Prices</h4>
+				<div id="pricing-list" class="mt-4 md:mt-6 bg-white/30 rounded-xl p-3 md:p-4">
+					<h4 class="font-subheader text-xs text-[#9F6C52] mb-2 md:mb-3 tracking-wider">Custom Prices</h4>
 					<div id="pricing-list-content" class="space-y-2 text-sm">
 						<!-- Populated by JS -->
 					</div>

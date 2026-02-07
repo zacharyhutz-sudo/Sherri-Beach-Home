@@ -27,39 +27,32 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
       </button>
     </div>
 
-    <!-- Desktop Calendar Grid -->
-    <div class="hidden md:block bg-white/50 rounded-2xl p-4 md:p-6 shadow-sm">
+    <!-- Calendar Grid -->
+    <div class="bg-white/50 rounded-2xl p-2 md:p-6 shadow-sm">
       <!-- Day Headers -->
-      <div class="grid grid-cols-7 gap-2 mb-2">
-        <div class="text-center font-subheader text-xs text-[#A7B9C6] py-2">Sun</div>
-        <div class="text-center font-subheader text-xs text-[#A7B9C6] py-2">Mon</div>
-        <div class="text-center font-subheader text-xs text-[#A7B9C6] py-2">Tue</div>
-        <div class="text-center font-subheader text-xs text-[#A7B9C6] py-2">Wed</div>
-        <div class="text-center font-subheader text-xs text-[#A7B9C6] py-2">Thu</div>
-        <div class="text-center font-subheader text-xs text-[#A7B9C6] py-2">Fri</div>
-        <div class="text-center font-subheader text-xs text-[#A7B9C6] py-2">Sat</div>
+      <div class="grid grid-cols-7 gap-1 md:gap-2 mb-1 md:mb-2">
+        <div class="text-center font-subheader text-[10px] md:text-xs text-[#A7B9C6] py-1 md:py-2">Sun</div>
+        <div class="text-center font-subheader text-[10px] md:text-xs text-[#A7B9C6] py-1 md:py-2">Mon</div>
+        <div class="text-center font-subheader text-[10px] md:text-xs text-[#A7B9C6] py-1 md:py-2">Tue</div>
+        <div class="text-center font-subheader text-[10px] md:text-xs text-[#A7B9C6] py-1 md:py-2">Wed</div>
+        <div class="text-center font-subheader text-[10px] md:text-xs text-[#A7B9C6] py-1 md:py-2">Thu</div>
+        <div class="text-center font-subheader text-[10px] md:text-xs text-[#A7B9C6] py-1 md:py-2">Fri</div>
+        <div class="text-center font-subheader text-[10px] md:text-xs text-[#A7B9C6] py-1 md:py-2">Sat</div>
       </div>
       
       <!-- Date Grid -->
-      <div id="calendar-grid" class="grid grid-cols-7 gap-2">
-        <!-- Populated by JavaScript -->
-      </div>
-    </div>
-
-    <!-- Mobile Calendar List -->
-    <div class="md:hidden bg-white/50 rounded-2xl p-4 shadow-sm">
-      <div id="calendar-mobile" class="space-y-2">
+      <div id="calendar-grid" class="grid grid-cols-7 gap-1 md:gap-2">
         <!-- Populated by JavaScript -->
       </div>
     </div>
 
     <!-- Legend -->
-    <div class="flex justify-center gap-6 md:gap-8 mt-6">
-      <div class="flex items-center gap-2">
+    <div class="flex justify-center gap-4 md:gap-8 mt-4 md:mt-6">
+      <div class="flex items-center gap-1.5 md:gap-2">
         <div class="w-3 h-3 md:w-4 md:h-4 rounded bg-[#d8f0d8] border border-[#b8d8b8]"></div>
         <span class="text-xs md:text-sm font-body text-[#9F6C52]/70">Available</span>
       </div>
-      <div class="flex items-center gap-2">
+      <div class="flex items-center gap-1.5 md:gap-2">
         <div class="w-3 h-3 md:w-4 md:h-4 rounded bg-[#f5d4cf] border border-[#e8b8b0]"></div>
         <span class="text-xs md:text-sm font-body text-[#9F6C52]/70">Booked</span>
       </div>
@@ -68,8 +61,8 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
 </div>
 
 <script define:vars={{ API_URL }}>
-  const dayNames = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-  const dayNamesFull = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
+  const dayNames = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+  const dayNamesFull = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
   const monthNames = ['January', 'February', 'March', 'April', 'May', 'June', 
                       'July', 'August', 'September', 'October', 'November', 'December'];
   
@@ -145,12 +138,11 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
     return new Date(year, month, 1).getDay();
   }
 
-  function renderCalendar() {
-    renderDesktopCalendar();
-    renderMobileCalendar();
+  function isMobile() {
+    return window.innerWidth < 768;
   }
 
-  function renderDesktopCalendar() {
+  function renderCalendar() {
     const grid = document.getElementById('calendar-grid');
     const monthYear = document.getElementById('month-year');
     
@@ -158,12 +150,13 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
     
     const daysInMonth = getDaysInMonth(displayYear, displayMonth);
     const firstDay = getFirstDayOfMonth(displayYear, displayMonth);
+    const mobile = isMobile();
     
     let html = '';
     
     // Empty cells for days before the first of the month
     for (let i = 0; i < firstDay; i++) {
-      html += '<div class="aspect-square"></div>';
+      html += `<div class="min-h-[60px] md:aspect-square"></div>`;
     }
     
     // Date cells
@@ -176,69 +169,25 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
       const price = getPriceForDate(displayYear, displayMonth, day);
       
       let bgClass = isBooked ? 'bg-[#f5d4cf]' : 'bg-[#d8f0d8]';
-      let borderClass = today ? 'ring-2 ring-[#9F6C52] ring-offset-2' : '';
+      let borderClass = today ? 'ring-2 ring-[#9F6C52] ring-offset-1 md:ring-offset-2' : '';
       let opacityClass = past ? 'opacity-50' : '';
-      let statusText = isBooked ? 'Booked' : 'Available';
+      let statusText = isBooked ? 'Booked' : 'Open';
       let statusColor = isBooked ? 'text-[#c45a4a]' : 'text-[#5a9a5a]';
       
       html += `
-        <div class="aspect-square ${bgClass} ${borderClass} ${opacityClass} rounded-lg p-2 flex flex-col transition-all hover:shadow-md">
+        <div class="min-h-[60px] md:aspect-square ${bgClass} ${borderClass} ${opacityClass} rounded-md md:rounded-lg p-1 md:p-2 flex flex-col transition-all hover:shadow-md">
           <div class="flex justify-between items-start">
-            <span class="font-subheader text-[10px] text-[#9F6C52]/60 tracking-wider">${dayNames[dayOfWeek]}</span>
-            <span class="font-header text-lg text-[#9F6C52]">${day}</span>
+            <span class="font-header text-sm md:text-lg text-[#9F6C52]">${day}</span>
           </div>
-          <div class="flex-1 flex flex-col items-center justify-end pb-1 gap-0.5">
-            <span class="font-body text-xs ${statusColor} font-medium">${statusText}</span>
-            <span class="font-subheader text-sm text-[#9F6C52] font-semibold">${price}</span>
+          <div class="flex-1 flex flex-col items-center justify-end gap-0">
+            <span class="font-body text-[7px] md:text-xs ${statusColor} font-medium leading-tight">${statusText}</span>
+            <span class="font-subheader text-[9px] md:text-sm text-[#9F6C52] font-semibold leading-tight">${price}</span>
           </div>
         </div>
       `;
     }
     
     grid.innerHTML = html;
-  }
-
-  function renderMobileCalendar() {
-    const mobileContainer = document.getElementById('calendar-mobile');
-    if (!mobileContainer) return;
-    
-    const daysInMonth = getDaysInMonth(displayYear, displayMonth);
-    const firstDay = getFirstDayOfMonth(displayYear, displayMonth);
-    
-    let html = '';
-    
-    // Group by weeks for mobile
-    let currentWeek = [];
-    
-    for (let day = 1; day <= daysInMonth; day++) {
-      const today = isToday(displayYear, displayMonth, day);
-      const past = isPast(displayYear, displayMonth, day);
-      const dayOfWeek = (firstDay + day - 1) % 7;
-      const booking = getBookingForDate(displayYear, displayMonth, day);
-      const isBooked = booking && booking.availability === 'booked';
-      const price = getPriceForDate(displayYear, displayMonth, day);
-      
-      let bgClass = isBooked ? 'bg-[#f5d4cf]' : 'bg-[#d8f0d8]';
-      let borderClass = today ? 'ring-2 ring-[#9F6C52]' : '';
-      let opacityClass = past ? 'opacity-50' : '';
-      let statusText = isBooked ? 'Booked' : 'Available';
-      let statusColor = isBooked ? 'text-[#c45a4a]' : 'text-[#5a9a5a]';
-      
-      html += `
-        <div class="flex items-center justify-between ${bgClass} ${borderClass} ${opacityClass} rounded-lg px-4 py-3">
-          <div class="flex items-center gap-3">
-            <div class="text-center min-w-[45px]">
-              <div class="font-header text-xl text-[#9F6C52]">${day}</div>
-              <div class="font-subheader text-[10px] text-[#9F6C52]/60 tracking-wider">${dayNames[dayOfWeek]}</div>
-            </div>
-            <span class="font-body text-sm ${statusColor} font-medium">${statusText}</span>
-          </div>
-          <span class="font-subheader text-lg text-[#9F6C52] font-semibold">${price}</span>
-        </div>
-      `;
-    }
-    
-    mobileContainer.innerHTML = html;
   }
 
   // Event listeners
@@ -260,6 +209,11 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
     renderCalendar();
   });
 
+  // Re-render on resize for responsive adjustments
+  window.addEventListener('resize', () => {
+    renderCalendar();
+  });
+
   // Initial fetch
   fetchBookings();
 
@@ -271,7 +225,7 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
     
     setTimeout(() => {
       currentDate = new Date();
-      fetchBookings(); // Re-fetch data at midnight
+      fetchBookings();
       scheduleNextDayUpdate();
     }, msUntilMidnight);
   }
