@@ -6,23 +6,25 @@ import Gallery from '../components/Gallery.astro';
 <Layout title="Welcome">
 	<div class="max-w-6xl mx-auto px-6">
 		<!-- Hero Section -->
-		<section class="relative h-[80vh] mb-20 flex items-center justify-center overflow-hidden w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]">
-			<!-- Background Pattern -->
-			<div class="absolute inset-0 z-0 opacity-100 bg-cover bg-center pointer-events-none" 
-				 style="background-image: url('/Sherri-Beach-Home/images/pattern.png');">
-			</div>
-			
-			<div class="relative z-20 w-full max-w-5xl mx-auto px-4">
-				<div class="bg-[#A7B9C6]/90 backdrop-blur-sm p-12 md:p-24 rounded-3xl text-center shadow-2xl">
-					<h1 class="text-[#EEE7DD] text-6xl md:text-8xl mb-6 drop-shadow-lg uppercase tracking-wider font-header">Escape to the Cape</h1>
+		<section class="max-w-4xl mx-auto pt-16 pb-24 text-center">
+			<div class="relative inline-block mb-12 transform rotate-1 hover:rotate-0 transition-transform duration-500">
+				<!-- Polaroid Container -->
+				<div class="bg-white p-4 pb-16 shadow-2xl rounded-sm border border-gray-100">
+					<img 
+						src="/Sherri-Beach-Home/images/hero-polaroid.jpg" 
+						alt="Cape San Blas" 
+						class="w-full max-w-[500px] aspect-[4/5] object-cover grayscale-[0.2] contrast-[1.1]"
+					/>
 				</div>
 			</div>
+
+			<h1 class="text-[#92ABBB] text-5xl md:text-7xl mb-6 tracking-wider font-header leading-tight">Escape to the Cape</h1>
 		</section>
 
 		<!-- Introduction -->
-		<section class="max-w-3xl mx-auto text-center mb-32">
+		<section class="max-w-3xl mx-auto text-center mb-24">
 			<p class="font-subheader text-sm mb-4 tracking-[0.3em] opacity-80">Since 2026</p>
-			<h2 class="text-4xl md:text-5xl mb-8">A Coastal Retreat</h2>
+			<h2 class="text-3xl md:text-4xl mb-8">A Coastal Retreat</h2>
 			<div class="text-lg md:text-xl leading-relaxed space-y-6 opacity-90">
 				<p>
 					Welcome to our slice of paradise in Cape San Blas, Florida. Nestled between the crystal-clear Gulf of Mexico and the calm St. Joseph Bay, 
@@ -33,7 +35,15 @@ import Gallery from '../components/Gallery.astro';
 
 		<Gallery />
 
-		<!-- Ready for vacation CTA -->
+		<!-- Striped Background Section -->
+		<section class="relative py-24 mb-12 overflow-hidden w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw]">
+			<div class="absolute inset-0 z-0 bg-cover bg-center" 
+				 style="background-image: url('/Sherri-Beach-Home/images/pattern.png');">
+			</div>
+			<div class="relative z-10 max-w-4xl mx-auto px-6 text-center">
+				<!-- Content can go here if needed, or keep it as a visual break -->
+			</div>
+		</section>
 		<section class="bg-[#92ABBB] text-[#EEE7DD] rounded-[3rem] p-12 md:p-24 text-center">
 			<h2 class="text-4xl md:text-6xl mb-8">Ready for your vacation?</h2>
 			<p class="text-lg md:text-xl mb-12 opacity-90 max-w-2xl mx-auto">
