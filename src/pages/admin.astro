@@ -9,110 +9,177 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
 	<main class="max-w-6xl mx-auto px-6 py-12">
 		<header class="mb-12 text-center">
 			<h1 class="text-4xl font-header text-[#92ABBB] mb-4">Admin Dashboard</h1>
-			<p class="text-lg opacity-80">Manage bookings and availability</p>
+			<p class="text-lg opacity-80">Manage bookings and pricing</p>
 		</header>
 
-		<!-- Booking Form -->
-		<section class="mb-16">
-			<h2 class="text-2xl font-subheader text-[#92ABBB] mb-8 text-center">Add / Edit Booking</h2>
-			
-			<form id="booking-form" class="max-w-2xl mx-auto bg-white/50 rounded-2xl p-6 md:p-8 shadow-sm">
-				<div class="grid md:grid-cols-2 gap-6">
-					<!-- Name -->
-					<div class="md:col-span-2">
-						<label for="name" class="block font-subheader text-xs text-[#9F6C52] mb-2 tracking-wider">Guest Name</label>
-						<input 
-							type="text" 
-							id="name" 
-							name="name"
-							placeholder="e.g., Smith Family"
-							class="w-full px-4 py-3 bg-white/70 border border-[#A7B9C6]/30 rounded-lg font-body text-[#9F6C52] focus:outline-none focus:border-[#92ABBB] transition-colors"
-						/>
+		<!-- Forms Section - Side by Side -->
+		<section class="mb-16 grid lg:grid-cols-2 gap-8">
+			<!-- Booking Form (Left) -->
+			<div>
+				<h2 class="text-xl font-subheader text-[#92ABBB] mb-6 text-center">Bookings</h2>
+				
+				<form id="booking-form" class="bg-white/50 rounded-2xl p-6 shadow-sm">
+					<div class="space-y-4">
+						<!-- Name -->
+						<div>
+							<label for="name" class="block font-subheader text-xs text-[#9F6C52] mb-2 tracking-wider">Guest Name</label>
+							<input 
+								type="text" 
+								id="name" 
+								name="name"
+								placeholder="e.g., Smith Family"
+								class="w-full px-4 py-3 bg-white/70 border border-[#A7B9C6]/30 rounded-lg font-body text-[#9F6C52] focus:outline-none focus:border-[#92ABBB] transition-colors"
+							/>
+						</div>
+
+						<!-- Dates Row -->
+						<div class="grid grid-cols-2 gap-4">
+							<div>
+								<label for="startDate" class="block font-subheader text-xs text-[#9F6C52] mb-2 tracking-wider">Start *</label>
+								<input 
+									type="date" 
+									id="startDate" 
+									name="startDate"
+									required
+									class="w-full px-4 py-3 bg-white/70 border border-[#A7B9C6]/30 rounded-lg font-body text-[#9F6C52] focus:outline-none focus:border-[#92ABBB] transition-colors"
+								/>
+							</div>
+							<div>
+								<label for="endDate" class="block font-subheader text-xs text-[#9F6C52] mb-2 tracking-wider">End *</label>
+								<input 
+									type="date" 
+									id="endDate" 
+									name="endDate"
+									required
+									class="w-full px-4 py-3 bg-white/70 border border-[#A7B9C6]/30 rounded-lg font-body text-[#9F6C52] focus:outline-none focus:border-[#92ABBB] transition-colors"
+								/>
+							</div>
+						</div>
+
+						<!-- Availability -->
+						<div>
+							<label for="availability" class="block font-subheader text-xs text-[#9F6C52] mb-2 tracking-wider">Status *</label>
+							<select 
+								id="availability" 
+								name="availability"
+								required
+								class="w-full px-4 py-3 bg-white/70 border border-[#A7B9C6]/30 rounded-lg font-body text-[#9F6C52] focus:outline-none focus:border-[#92ABBB] transition-colors"
+							>
+								<option value="booked">Booked</option>
+								<option value="available">Available</option>
+							</select>
+						</div>
+
+						<!-- Note -->
+						<div>
+							<label for="note" class="block font-subheader text-xs text-[#9F6C52] mb-2 tracking-wider">Note (Private)</label>
+							<textarea 
+								id="note" 
+								name="note"
+								rows="2"
+								placeholder="e.g., Returning guest"
+								class="w-full px-4 py-3 bg-white/70 border border-[#A7B9C6]/30 rounded-lg font-body text-[#9F6C52] focus:outline-none focus:border-[#92ABBB] transition-colors resize-none"
+							></textarea>
+						</div>
 					</div>
 
-					<!-- Start Date -->
-					<div>
-						<label for="startDate" class="block font-subheader text-xs text-[#9F6C52] mb-2 tracking-wider">Start Date *</label>
-						<input 
-							type="date" 
-							id="startDate" 
-							name="startDate"
-							required
-							class="w-full px-4 py-3 bg-white/70 border border-[#A7B9C6]/30 rounded-lg font-body text-[#9F6C52] focus:outline-none focus:border-[#92ABBB] transition-colors"
-						/>
-					</div>
-
-					<!-- End Date -->
-					<div>
-						<label for="endDate" class="block font-subheader text-xs text-[#9F6C52] mb-2 tracking-wider">End Date *</label>
-						<input 
-							type="date" 
-							id="endDate" 
-							name="endDate"
-							required
-							class="w-full px-4 py-3 bg-white/70 border border-[#A7B9C6]/30 rounded-lg font-body text-[#9F6C52] focus:outline-none focus:border-[#92ABBB] transition-colors"
-						/>
-					</div>
-
-					<!-- Availability -->
-					<div>
-						<label for="availability" class="block font-subheader text-xs text-[#9F6C52] mb-2 tracking-wider">Availability *</label>
-						<select 
-							id="availability" 
-							name="availability"
-							required
-							class="w-full px-4 py-3 bg-white/70 border border-[#A7B9C6]/30 rounded-lg font-body text-[#9F6C52] focus:outline-none focus:border-[#92ABBB] transition-colors"
+					<!-- Buttons -->
+					<div class="mt-6 flex gap-3">
+						<button 
+							type="submit"
+							class="flex-1 bg-[#92ABBB] text-[#EEE7DD] py-3 rounded-xl font-subheader text-sm tracking-widest hover:bg-[#A7B9C6] shadow-lg hover:shadow-xl transition-all"
 						>
-							<option value="booked">Booked</option>
-							<option value="available">Available</option>
-						</select>
+							Save Booking
+						</button>
+						<button 
+							type="button"
+							id="clear-booking"
+							class="px-4 py-3 border border-[#A7B9C6]/50 text-[#9F6C52] rounded-xl font-subheader text-xs tracking-widest hover:bg-white/50 transition-all"
+						>
+							Clear
+						</button>
 					</div>
 
-					<!-- Price -->
-					<div>
-						<label for="price" class="block font-subheader text-xs text-[#9F6C52] mb-2 tracking-wider">Price per Night</label>
-						<input 
-							type="text" 
-							id="price" 
-							name="price"
-							placeholder="$210"
-							class="w-full px-4 py-3 bg-white/70 border border-[#A7B9C6]/30 rounded-lg font-body text-[#9F6C52] focus:outline-none focus:border-[#92ABBB] transition-colors"
-						/>
+					<div id="booking-status" class="mt-3 text-center text-sm font-body hidden"></div>
+				</form>
+			</div>
+
+			<!-- Pricing Form (Right) -->
+			<div>
+				<h2 class="text-xl font-subheader text-[#92ABBB] mb-6 text-center">Pricing</h2>
+				
+				<form id="pricing-form" class="bg-white/50 rounded-2xl p-6 shadow-sm">
+					<div class="space-y-4">
+						<!-- Dates Row -->
+						<div class="grid grid-cols-2 gap-4">
+							<div>
+								<label for="priceStartDate" class="block font-subheader text-xs text-[#9F6C52] mb-2 tracking-wider">Start *</label>
+								<input 
+									type="date" 
+									id="priceStartDate" 
+									name="startDate"
+									required
+									class="w-full px-4 py-3 bg-white/70 border border-[#A7B9C6]/30 rounded-lg font-body text-[#9F6C52] focus:outline-none focus:border-[#92ABBB] transition-colors"
+								/>
+							</div>
+							<div>
+								<label for="priceEndDate" class="block font-subheader text-xs text-[#9F6C52] mb-2 tracking-wider">End *</label>
+								<input 
+									type="date" 
+									id="priceEndDate" 
+									name="endDate"
+									required
+									class="w-full px-4 py-3 bg-white/70 border border-[#A7B9C6]/30 rounded-lg font-body text-[#9F6C52] focus:outline-none focus:border-[#92ABBB] transition-colors"
+								/>
+							</div>
+						</div>
+
+						<!-- Price -->
+						<div>
+							<label for="price" class="block font-subheader text-xs text-[#9F6C52] mb-2 tracking-wider">Price per Night *</label>
+							<input 
+								type="text" 
+								id="price" 
+								name="price"
+								required
+								placeholder="$210"
+								class="w-full px-4 py-3 bg-white/70 border border-[#A7B9C6]/30 rounded-lg font-body text-[#9F6C52] focus:outline-none focus:border-[#92ABBB] transition-colors"
+							/>
+						</div>
+
+						<p class="text-xs text-[#9F6C52]/60 font-body">
+							Set custom pricing for date ranges (holidays, peak season, etc.)
+						</p>
 					</div>
 
-					<!-- Note -->
-					<div class="md:col-span-2">
-						<label for="note" class="block font-subheader text-xs text-[#9F6C52] mb-2 tracking-wider">Note (Private)</label>
-						<textarea 
-							id="note" 
-							name="note"
-							rows="3"
-							placeholder="e.g., Returning guest, late checkout OK"
-							class="w-full px-4 py-3 bg-white/70 border border-[#A7B9C6]/30 rounded-lg font-body text-[#9F6C52] focus:outline-none focus:border-[#92ABBB] transition-colors resize-none"
-						></textarea>
+					<!-- Buttons -->
+					<div class="mt-6 flex gap-3">
+						<button 
+							type="submit"
+							class="flex-1 bg-[#9F6C52] text-[#EEE7DD] py-3 rounded-xl font-subheader text-sm tracking-widest hover:bg-[#8a5d46] shadow-lg hover:shadow-xl transition-all"
+						>
+							Set Price
+						</button>
+						<button 
+							type="button"
+							id="clear-pricing"
+							class="px-4 py-3 border border-[#A7B9C6]/50 text-[#9F6C52] rounded-xl font-subheader text-xs tracking-widest hover:bg-white/50 transition-all"
+						>
+							Clear
+						</button>
+					</div>
+
+					<div id="pricing-status" class="mt-3 text-center text-sm font-body hidden"></div>
+				</form>
+
+				<!-- Pricing List -->
+				<div id="pricing-list" class="mt-6 bg-white/30 rounded-xl p-4">
+					<h4 class="font-subheader text-xs text-[#9F6C52] mb-3 tracking-wider">Custom Prices</h4>
+					<div id="pricing-list-content" class="space-y-2 text-sm">
+						<!-- Populated by JS -->
 					</div>
 				</div>
-
-				<!-- Submit Button -->
-				<div class="mt-8 flex gap-4">
-					<button 
-						type="submit"
-						class="flex-1 bg-[#92ABBB] text-[#EEE7DD] py-4 rounded-xl font-subheader text-lg tracking-widest hover:bg-[#A7B9C6] shadow-lg hover:shadow-xl transition-all"
-					>
-						Save Booking
-					</button>
-					<button 
-						type="button"
-						id="clear-form"
-						class="px-6 py-4 border border-[#A7B9C6]/50 text-[#9F6C52] rounded-xl font-subheader text-sm tracking-widest hover:bg-white/50 transition-all"
-					>
-						Clear
-					</button>
-				</div>
-
-				<!-- Status Message -->
-				<div id="form-status" class="mt-4 text-center text-sm font-body hidden"></div>
-			</form>
+			</div>
 		</section>
 
 		<!-- Admin Calendar -->
@@ -128,120 +195,198 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
 </Layout>
 
 <script define:vars={{ API_URL }}>
-	const form = document.getElementById('booking-form');
-	const formStatus = document.getElementById('form-status');
-	const clearBtn = document.getElementById('clear-form');
-	const submitBtn = form?.querySelector('button[type="submit"]');
+	// === BOOKING FORM ===
+	const bookingForm = document.getElementById('booking-form');
+	const bookingStatus = document.getElementById('booking-status');
+	const clearBookingBtn = document.getElementById('clear-booking');
+	const bookingSubmitBtn = bookingForm?.querySelector('button[type="submit"]');
 	
-	// Track if we're editing an existing booking
-	let editingId = null;
+	let editingBookingId = null;
 
-	function showStatus(message, isError = false) {
-		formStatus.textContent = message;
-		formStatus.classList.remove('hidden', 'text-green-600', 'text-red-500');
-		formStatus.classList.add(isError ? 'text-red-500' : 'text-green-600');
-		
-		setTimeout(() => {
-			formStatus.classList.add('hidden');
-		}, 3000);
+	function showBookingStatus(message, isError = false) {
+		bookingStatus.textContent = message;
+		bookingStatus.classList.remove('hidden', 'text-green-600', 'text-red-500');
+		bookingStatus.classList.add(isError ? 'text-red-500' : 'text-green-600');
+		setTimeout(() => bookingStatus.classList.add('hidden'), 3000);
 	}
 
 	function generateId() {
 		return Date.now().toString(36) + Math.random().toString(36).substr(2);
 	}
 
-	function setEditMode(booking) {
-		editingId = booking.id;
-		
-		// Populate form fields
+	function setBookingEditMode(booking) {
+		editingBookingId = booking.id;
 		document.getElementById('name').value = booking.name || '';
 		document.getElementById('startDate').value = booking.startDate || '';
 		document.getElementById('endDate').value = booking.endDate || '';
 		document.getElementById('availability').value = booking.availability || 'booked';
-		document.getElementById('price').value = booking.price || '$210';
 		document.getElementById('note').value = booking.note || '';
-		
-		// Update button text
-		if (submitBtn) submitBtn.textContent = 'Update Booking';
-		
-		// Scroll to form
-		form?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+		if (bookingSubmitBtn) bookingSubmitBtn.textContent = 'Update Booking';
+		bookingForm?.scrollIntoView({ behavior: 'smooth', block: 'start' });
 	}
 
-	function clearEditMode() {
-		editingId = null;
-		form?.reset();
-		if (submitBtn) submitBtn.textContent = 'Save Booking';
+	function clearBookingForm() {
+		editingBookingId = null;
+		bookingForm?.reset();
+		if (bookingSubmitBtn) bookingSubmitBtn.textContent = 'Save Booking';
 	}
 
-	// Listen for edit events from AdminCalendar
-	window.addEventListener('editBooking', (e) => {
-		setEditMode(e.detail);
-	});
+	window.addEventListener('editBooking', (e) => setBookingEditMode(e.detail));
+	clearBookingBtn?.addEventListener('click', clearBookingForm);
 
-	clearBtn?.addEventListener('click', () => {
-		clearEditMode();
-	});
-
-	form?.addEventListener('submit', async (e) => {
+	bookingForm?.addEventListener('submit', async (e) => {
 		e.preventDefault();
-		
-		const formData = new FormData(form);
+		const formData = new FormData(bookingForm);
 		const startDate = formData.get('startDate');
 		const endDate = formData.get('endDate');
 		
-		// Validate dates
 		if (new Date(endDate) < new Date(startDate)) {
-			showStatus('End date must be after start date', true);
+			showBookingStatus('End date must be after start date', true);
 			return;
 		}
 
 		const bookingData = {
-			id: editingId || generateId(),
+			id: editingBookingId || generateId(),
 			name: formData.get('name') || '',
-			startDate: startDate,
-			endDate: endDate,
+			startDate,
+			endDate,
 			availability: formData.get('availability'),
-			price: formData.get('price') || '$210',
 			note: formData.get('note') || ''
 		};
 
 		try {
-			// Fetch current data
-			const currentResponse = await fetch(API_URL);
-			const currentData = await currentResponse.json();
+			const currentData = await fetch(API_URL).then(r => r.json());
 			let bookings = currentData.bookings || [];
+			const pricing = currentData.pricing || [];
 			const defaultPrice = currentData.defaultPrice || '$210';
 
-			if (editingId) {
-				// Update existing booking
-				bookings = bookings.map(b => b.id === editingId ? bookingData : b);
+			if (editingBookingId) {
+				bookings = bookings.map(b => b.id === editingBookingId ? bookingData : b);
 			} else {
-				// Add new booking
 				bookings.push(bookingData);
 			}
 
-			// Save to API
 			const response = await fetch(API_URL, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify({ bookings, defaultPrice })
+				body: JSON.stringify({ bookings, pricing, defaultPrice })
 			});
 
 			if (response.ok) {
-				showStatus(editingId ? 'Booking updated!' : 'Booking saved!');
-				clearEditMode();
-				
-				// Refresh the admin calendar
-				if (window.adminCalendarRefresh) {
-					window.adminCalendarRefresh();
-				}
-			} else {
-				throw new Error('Failed to save');
-			}
+				showBookingStatus(editingBookingId ? 'Booking updated!' : 'Booking saved!');
+				clearBookingForm();
+				if (window.adminCalendarRefresh) window.adminCalendarRefresh();
+			} else throw new Error('Failed');
 		} catch (error) {
-			console.error('Save error:', error);
-			showStatus('Failed to save booking. Please try again.', true);
+			showBookingStatus('Failed to save. Please try again.', true);
 		}
 	});
+
+	// === PRICING FORM ===
+	const pricingForm = document.getElementById('pricing-form');
+	const pricingStatus = document.getElementById('pricing-status');
+	const clearPricingBtn = document.getElementById('clear-pricing');
+	const pricingListContent = document.getElementById('pricing-list-content');
+
+	function showPricingStatus(message, isError = false) {
+		pricingStatus.textContent = message;
+		pricingStatus.classList.remove('hidden', 'text-green-600', 'text-red-500');
+		pricingStatus.classList.add(isError ? 'text-red-500' : 'text-green-600');
+		setTimeout(() => pricingStatus.classList.add('hidden'), 3000);
+	}
+
+	clearPricingBtn?.addEventListener('click', () => pricingForm?.reset());
+
+	pricingForm?.addEventListener('submit', async (e) => {
+		e.preventDefault();
+		const formData = new FormData(pricingForm);
+		const startDate = formData.get('startDate');
+		const endDate = formData.get('endDate');
+		const price = formData.get('price');
+		
+		if (new Date(endDate) < new Date(startDate)) {
+			showPricingStatus('End date must be after start date', true);
+			return;
+		}
+
+		const pricingEntry = {
+			id: generateId(),
+			startDate,
+			endDate,
+			price
+		};
+
+		try {
+			const currentData = await fetch(API_URL).then(r => r.json());
+			const bookings = currentData.bookings || [];
+			const pricing = currentData.pricing || [];
+			const defaultPrice = currentData.defaultPrice || '$210';
+
+			pricing.push(pricingEntry);
+
+			const response = await fetch(API_URL, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ bookings, pricing, defaultPrice })
+			});
+
+			if (response.ok) {
+				showPricingStatus('Price set!');
+				pricingForm.reset();
+				if (window.adminCalendarRefresh) window.adminCalendarRefresh();
+				renderPricingList(pricing);
+			} else throw new Error('Failed');
+		} catch (error) {
+			showPricingStatus('Failed to save. Please try again.', true);
+		}
+	});
+
+	async function deletePricing(id) {
+		try {
+			const currentData = await fetch(API_URL).then(r => r.json());
+			const bookings = currentData.bookings || [];
+			const pricing = (currentData.pricing || []).filter(p => p.id !== id);
+			const defaultPrice = currentData.defaultPrice || '$210';
+
+			const response = await fetch(API_URL, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ bookings, pricing, defaultPrice })
+			});
+
+			if (response.ok) {
+				if (window.adminCalendarRefresh) window.adminCalendarRefresh();
+				renderPricingList(pricing);
+			}
+		} catch (error) {
+			console.error('Delete pricing error:', error);
+		}
+	}
+
+	function renderPricingList(pricing) {
+		if (!pricingListContent) return;
+		
+		if (!pricing || pricing.length === 0) {
+			pricingListContent.innerHTML = '<p class="text-xs opacity-60">No custom prices set. Default: $210/night</p>';
+			return;
+		}
+
+		const sorted = [...pricing].sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
+		pricingListContent.innerHTML = sorted.map(p => `
+			<div class="flex items-center justify-between py-2 border-b border-[#9F6C52]/10 last:border-0">
+				<div>
+					<span class="font-semibold text-[#9F6C52]">${p.price}</span>
+					<span class="text-[#9F6C52]/60 text-xs ml-2">${p.startDate} → ${p.endDate}</span>
+				</div>
+				<button class="delete-pricing text-xs text-red-400 hover:text-red-600" data-id="${p.id}">×</button>
+			</div>
+		`).join('');
+
+		pricingListContent.querySelectorAll('.delete-pricing').forEach(btn => {
+			btn.addEventListener('click', () => deletePricing(btn.dataset.id));
+		});
+	}
+
+	// Load initial pricing list
+	fetch(API_URL).then(r => r.json()).then(data => renderPricingList(data.pricing));
 </script>

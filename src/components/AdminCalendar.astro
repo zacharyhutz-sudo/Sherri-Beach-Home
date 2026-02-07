@@ -78,6 +78,7 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
   
   // Data from API
   let bookings = [];
+  let pricing = [];
   let defaultPrice = "$210";
 
   // Expose for external refresh
@@ -89,6 +90,7 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
       const response = await fetch(API_URL);
       const data = await response.json();
       bookings = data.bookings || [];
+      pricing = data.pricing || [];
       defaultPrice = data.defaultPrice || "$210";
       
       document.getElementById('admin-calendar-loading')?.classList.add('hidden');
@@ -113,6 +115,17 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
       const check = new Date(dateStr);
       return check >= start && check <= end;
     });
+  }
+
+  function getPriceForDate(year, month, day) {
+    const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    const priceEntry = pricing.find(p => {
+      const start = new Date(p.startDate);
+      const end = new Date(p.endDate);
+      const check = new Date(dateStr);
+      return check >= start && check <= end;
+    });
+    return priceEntry?.price || defaultPrice;
   }
 
   function isToday(year, month, day) {
@@ -162,7 +175,7 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
       const dayOfWeek = (firstDay + day - 1) % 7;
       const booking = getBookingForDate(displayYear, displayMonth, day);
       const isBooked = booking && booking.availability === 'booked';
-      const price = booking?.price || defaultPrice;
+      const price = getPriceForDate(displayYear, displayMonth, day);
       const name = booking?.name || '';
       const note = booking?.note || '';
       
@@ -216,7 +229,6 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
             <div class="flex items-center gap-3 mb-1">
               <span class="font-subheader text-sm text-[#9F6C52]">${booking.name || 'Unnamed'}</span>
               <span class="font-body text-xs ${statusColor} font-medium">${statusText}</span>
-              <span class="font-subheader text-sm text-[#9F6C52] font-semibold">${booking.price || defaultPrice}</span>
             </div>
             <div class="font-body text-xs text-[#9F6C52]/70">
               ${booking.startDate} → ${booking.endDate}
@@ -270,7 +282,7 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
       const response = await fetch(API_URL, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ bookings: newBookings, defaultPrice })
+        body: JSON.stringify({ bookings: newBookings, pricing, defaultPrice })
       });
       
       if (response.ok) {

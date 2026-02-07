@@ -71,6 +71,7 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
   
   // Data from API
   let bookings = [];
+  let pricing = [];
   let defaultPrice = "$210";
 
   // Fetch data from npoint
@@ -79,6 +80,7 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
       const response = await fetch(API_URL);
       const data = await response.json();
       bookings = data.bookings || [];
+      pricing = data.pricing || [];
       defaultPrice = data.defaultPrice || "$210";
       
       document.getElementById('calendar-loading').classList.add('hidden');
@@ -100,6 +102,17 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
       const check = new Date(dateStr);
       return check >= start && check <= end;
     });
+  }
+
+  function getPriceForDate(year, month, day) {
+    const dateStr = `${year}-${String(month + 1).padStart(2, '0')}-${String(day).padStart(2, '0')}`;
+    const priceEntry = pricing.find(p => {
+      const start = new Date(p.startDate);
+      const end = new Date(p.endDate);
+      const check = new Date(dateStr);
+      return check >= start && check <= end;
+    });
+    return priceEntry?.price || defaultPrice;
   }
 
   function isToday(year, month, day) {
@@ -147,7 +160,7 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
       const dayOfWeek = (firstDay + day - 1) % 7;
       const booking = getBookingForDate(displayYear, displayMonth, day);
       const isBooked = booking && booking.availability === 'booked';
-      const price = booking?.price || defaultPrice;
+      const price = getPriceForDate(displayYear, displayMonth, day);
       
       let bgClass = isBooked ? 'bg-[#f5d4cf]' : 'bg-[#d8f0d8]';
       let borderClass = today ? 'ring-2 ring-[#9F6C52] ring-offset-2' : '';
