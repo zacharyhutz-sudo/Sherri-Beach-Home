@@ -30,13 +30,13 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
     <div class="bg-white/50 rounded-2xl p-2 md:p-6 shadow-sm">
       <!-- Day Headers -->
       <div class="grid grid-cols-7 gap-1 md:gap-2 mb-1 md:mb-2">
-        <div class="text-center font-subheader text-[10px] md:text-xs text-[#A7B9C6] py-1 md:py-2">Sun</div>
-        <div class="text-center font-subheader text-[10px] md:text-xs text-[#A7B9C6] py-1 md:py-2">Mon</div>
-        <div class="text-center font-subheader text-[10px] md:text-xs text-[#A7B9C6] py-1 md:py-2">Tue</div>
-        <div class="text-center font-subheader text-[10px] md:text-xs text-[#A7B9C6] py-1 md:py-2">Wed</div>
-        <div class="text-center font-subheader text-[10px] md:text-xs text-[#A7B9C6] py-1 md:py-2">Thu</div>
-        <div class="text-center font-subheader text-[10px] md:text-xs text-[#A7B9C6] py-1 md:py-2">Fri</div>
-        <div class="text-center font-subheader text-[10px] md:text-xs text-[#A7B9C6] py-1 md:py-2">Sat</div>
+        <div class="text-center font-header text-[10px] md:text-xs text-[#A7B9C6] py-1 md:py-2">Sun</div>
+        <div class="text-center font-header text-[10px] md:text-xs text-[#A7B9C6] py-1 md:py-2">Mon</div>
+        <div class="text-center font-header text-[10px] md:text-xs text-[#A7B9C6] py-1 md:py-2">Tue</div>
+        <div class="text-center font-header text-[10px] md:text-xs text-[#A7B9C6] py-1 md:py-2">Wed</div>
+        <div class="text-center font-header text-[10px] md:text-xs text-[#A7B9C6] py-1 md:py-2">Thu</div>
+        <div class="text-center font-header text-[10px] md:text-xs text-[#A7B9C6] py-1 md:py-2">Fri</div>
+        <div class="text-center font-header text-[10px] md:text-xs text-[#A7B9C6] py-1 md:py-2">Sat</div>
       </div>
       
       <!-- Date Grid -->
@@ -200,9 +200,9 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
           </div>
           <div class="flex-1 flex flex-col gap-0 md:gap-1 justify-end">
             <span class="font-body text-[7px] md:text-[10px] ${statusColor} font-medium leading-tight">${statusText}</span>
-            <span class="font-subheader text-[8px] md:text-sm text-[#9F6C52] font-semibold leading-tight">${price}</span>
+            <span class="font-header text-[8px] md:text-sm text-[#9F6C52] font-semibold leading-tight">${price}</span>
             ${name ? `<span class="font-body text-[6px] md:text-[10px] text-[#9F6C52]/80 truncate leading-tight" title="${name}">${displayName}</span>` : ''}
-            ${note && !mobile ? `<span class="font-body text-[9px] text-[#9F6C52]/60 truncate italic" title="${note}">${note}</span>` : ''}
+            ${note && !mobile ? `<span class="font-body text-[9px] text-[#9F6C52]/60 italic" title="${note}">${note}</span>` : ''}
           </div>
         </div>
       `;
