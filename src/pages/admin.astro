@@ -1,0 +1,209 @@
+---
+import Layout from '../layouts/Layout.astro';
+import AdminCalendar from '../components/AdminCalendar.astro';
+
+const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
+---
+
+<Layout title="Admin - Sherri's Beach Condo">
+	<main class="max-w-6xl mx-auto px-6 py-12">
+		<header class="mb-12 text-center">
+			<h1 class="text-4xl font-header text-[#92ABBB] mb-4">Admin Dashboard</h1>
+			<p class="text-lg opacity-80">Manage bookings and availability</p>
+		</header>
+
+		<!-- Booking Form -->
+		<section class="mb-16">
+			<h2 class="text-2xl font-subheader text-[#92ABBB] mb-8 text-center">Add / Edit Booking</h2>
+			
+			<form id="booking-form" class="max-w-2xl mx-auto bg-white/50 rounded-2xl p-6 md:p-8 shadow-sm">
+				<div class="grid md:grid-cols-2 gap-6">
+					<!-- Name -->
+					<div class="md:col-span-2">
+						<label for="name" class="block font-subheader text-xs text-[#9F6C52] mb-2 tracking-wider">Guest Name</label>
+						<input 
+							type="text" 
+							id="name" 
+							name="name"
+							placeholder="e.g., Smith Family"
+							class="w-full px-4 py-3 bg-white/70 border border-[#A7B9C6]/30 rounded-lg font-body text-[#9F6C52] focus:outline-none focus:border-[#92ABBB] transition-colors"
+						/>
+					</div>
+
+					<!-- Start Date -->
+					<div>
+						<label for="startDate" class="block font-subheader text-xs text-[#9F6C52] mb-2 tracking-wider">Start Date *</label>
+						<input 
+							type="date" 
+							id="startDate" 
+							name="startDate"
+							required
+							class="w-full px-4 py-3 bg-white/70 border border-[#A7B9C6]/30 rounded-lg font-body text-[#9F6C52] focus:outline-none focus:border-[#92ABBB] transition-colors"
+						/>
+					</div>
+
+					<!-- End Date -->
+					<div>
+						<label for="endDate" class="block font-subheader text-xs text-[#9F6C52] mb-2 tracking-wider">End Date *</label>
+						<input 
+							type="date" 
+							id="endDate" 
+							name="endDate"
+							required
+							class="w-full px-4 py-3 bg-white/70 border border-[#A7B9C6]/30 rounded-lg font-body text-[#9F6C52] focus:outline-none focus:border-[#92ABBB] transition-colors"
+						/>
+					</div>
+
+					<!-- Availability -->
+					<div>
+						<label for="availability" class="block font-subheader text-xs text-[#9F6C52] mb-2 tracking-wider">Availability *</label>
+						<select 
+							id="availability" 
+							name="availability"
+							required
+							class="w-full px-4 py-3 bg-white/70 border border-[#A7B9C6]/30 rounded-lg font-body text-[#9F6C52] focus:outline-none focus:border-[#92ABBB] transition-colors"
+						>
+							<option value="booked">Booked</option>
+							<option value="available">Available</option>
+						</select>
+					</div>
+
+					<!-- Price -->
+					<div>
+						<label for="price" class="block font-subheader text-xs text-[#9F6C52] mb-2 tracking-wider">Price per Night</label>
+						<input 
+							type="text" 
+							id="price" 
+							name="price"
+							placeholder="$210"
+							class="w-full px-4 py-3 bg-white/70 border border-[#A7B9C6]/30 rounded-lg font-body text-[#9F6C52] focus:outline-none focus:border-[#92ABBB] transition-colors"
+						/>
+					</div>
+
+					<!-- Note -->
+					<div class="md:col-span-2">
+						<label for="note" class="block font-subheader text-xs text-[#9F6C52] mb-2 tracking-wider">Note (Private)</label>
+						<textarea 
+							id="note" 
+							name="note"
+							rows="3"
+							placeholder="e.g., Returning guest, late checkout OK"
+							class="w-full px-4 py-3 bg-white/70 border border-[#A7B9C6]/30 rounded-lg font-body text-[#9F6C52] focus:outline-none focus:border-[#92ABBB] transition-colors resize-none"
+						></textarea>
+					</div>
+				</div>
+
+				<!-- Submit Button -->
+				<div class="mt-8 flex gap-4">
+					<button 
+						type="submit"
+						class="flex-1 bg-[#92ABBB] text-[#EEE7DD] py-4 rounded-xl font-subheader text-lg tracking-widest hover:bg-[#A7B9C6] shadow-lg hover:shadow-xl transition-all"
+					>
+						Save Booking
+					</button>
+					<button 
+						type="button"
+						id="clear-form"
+						class="px-6 py-4 border border-[#A7B9C6]/50 text-[#9F6C52] rounded-xl font-subheader text-sm tracking-widest hover:bg-white/50 transition-all"
+					>
+						Clear
+					</button>
+				</div>
+
+				<!-- Status Message -->
+				<div id="form-status" class="mt-4 text-center text-sm font-body hidden"></div>
+			</form>
+		</section>
+
+		<!-- Admin Calendar -->
+		<section>
+			<h2 class="text-2xl font-subheader text-[#92ABBB] mb-8 text-center">Calendar Overview</h2>
+			<AdminCalendar />
+		</section>
+
+		<footer class="mt-16 pt-8 border-t border-[#9F6C52]/10 text-center">
+			<a href="/Sherri-Beach-Home/book" class="text-[#92ABBB] hover:opacity-80 font-subheader text-sm tracking-widest transition-all">← Back to Public Calendar</a>
+		</footer>
+	</main>
+</Layout>
+
+<script define:vars={{ API_URL }}>
+	const form = document.getElementById('booking-form');
+	const formStatus = document.getElementById('form-status');
+	const clearBtn = document.getElementById('clear-form');
+
+	function showStatus(message, isError = false) {
+		formStatus.textContent = message;
+		formStatus.classList.remove('hidden', 'text-green-600', 'text-red-500');
+		formStatus.classList.add(isError ? 'text-red-500' : 'text-green-600');
+		
+		setTimeout(() => {
+			formStatus.classList.add('hidden');
+		}, 3000);
+	}
+
+	function generateId() {
+		return Date.now().toString(36) + Math.random().toString(36).substr(2);
+	}
+
+	clearBtn?.addEventListener('click', () => {
+		form.reset();
+	});
+
+	form?.addEventListener('submit', async (e) => {
+		e.preventDefault();
+		
+		const formData = new FormData(form);
+		const startDate = formData.get('startDate');
+		const endDate = formData.get('endDate');
+		
+		// Validate dates
+		if (new Date(endDate) < new Date(startDate)) {
+			showStatus('End date must be after start date', true);
+			return;
+		}
+
+		const newBooking = {
+			id: generateId(),
+			name: formData.get('name') || '',
+			startDate: startDate,
+			endDate: endDate,
+			availability: formData.get('availability'),
+			price: formData.get('price') || '$210',
+			note: formData.get('note') || ''
+		};
+
+		try {
+			// Fetch current data
+			const currentResponse = await fetch(API_URL);
+			const currentData = await currentResponse.json();
+			const bookings = currentData.bookings || [];
+			const defaultPrice = currentData.defaultPrice || '$210';
+
+			// Add new booking
+			bookings.push(newBooking);
+
+			// Save to API
+			const response = await fetch(API_URL, {
+				method: 'POST',
+				headers: { 'Content-Type': 'application/json' },
+				body: JSON.stringify({ bookings, defaultPrice })
+			});
+
+			if (response.ok) {
+				showStatus('Booking saved successfully!');
+				form.reset();
+				
+				// Refresh the admin calendar
+				if (window.adminCalendarRefresh) {
+					window.adminCalendarRefresh();
+				}
+			} else {
+				throw new Error('Failed to save');
+			}
+		} catch (error) {
+			console.error('Save error:', error);
+			showStatus('Failed to save booking. Please try again.', true);
+		}
+	});
+</script>

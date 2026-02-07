@@ -1,26 +1,25 @@
 ---
-// Calendar component for Sherri's Beach Home
-// Data fetched from npoint.io API
+// Admin Calendar component - shows extended booking info (Name, Note)
 const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
 ---
 
-<div class="calendar-container">
+<div class="admin-calendar-container">
   <!-- Loading State -->
-  <div id="calendar-loading" class="text-center py-12">
+  <div id="admin-calendar-loading" class="text-center py-12">
     <div class="inline-block w-8 h-8 border-2 border-[#A7B9C6] border-t-transparent rounded-full animate-spin"></div>
     <p class="mt-4 text-sm opacity-60">Loading calendar...</p>
   </div>
 
-  <div id="calendar-content" class="hidden">
+  <div id="admin-calendar-content" class="hidden">
     <!-- Month Navigation -->
     <div class="flex items-center justify-center gap-6 mb-8">
-      <button id="prev-month" class="p-3 rounded-full hover:bg-[#A7B9C6]/20 transition-colors" aria-label="Previous month">
+      <button id="admin-prev-month" class="p-3 rounded-full hover:bg-[#A7B9C6]/20 transition-colors" aria-label="Previous month">
         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-[#9F6C52]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
         </svg>
       </button>
-      <h3 id="month-year" class="text-2xl font-header text-[#9F6C52] min-w-[240px] text-center"></h3>
-      <button id="next-month" class="p-3 rounded-full hover:bg-[#A7B9C6]/20 transition-colors" aria-label="Next month">
+      <h3 id="admin-month-year" class="text-2xl font-header text-[#9F6C52] min-w-[240px] text-center"></h3>
+      <button id="admin-next-month" class="p-3 rounded-full hover:bg-[#A7B9C6]/20 transition-colors" aria-label="Next month">
         <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-[#9F6C52]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
         </svg>
@@ -41,7 +40,7 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
       </div>
       
       <!-- Date Grid -->
-      <div id="calendar-grid" class="grid grid-cols-7 gap-2">
+      <div id="admin-calendar-grid" class="grid grid-cols-7 gap-2">
         <!-- Populated by JavaScript -->
       </div>
     </div>
@@ -55,6 +54,14 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
       <div class="flex items-center gap-2">
         <div class="w-4 h-4 rounded bg-[#f5d4cf] border border-[#e8b8b0]"></div>
         <span class="text-sm font-body text-[#9F6C52]/70">Booked</span>
+      </div>
+    </div>
+
+    <!-- Bookings List -->
+    <div id="bookings-list" class="mt-8 bg-white/50 rounded-2xl p-6">
+      <h4 class="font-subheader text-lg text-[#9F6C52] mb-4">All Bookings</h4>
+      <div id="bookings-list-content" class="space-y-3">
+        <!-- Populated by JavaScript -->
       </div>
     </div>
   </div>
@@ -73,6 +80,9 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
   let bookings = [];
   let defaultPrice = "$210";
 
+  // Expose for external refresh
+  window.adminCalendarRefresh = fetchBookings;
+
   // Fetch data from npoint
   async function fetchBookings() {
     try {
@@ -81,14 +91,17 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
       bookings = data.bookings || [];
       defaultPrice = data.defaultPrice || "$210";
       
-      document.getElementById('calendar-loading').classList.add('hidden');
-      document.getElementById('calendar-content').classList.remove('hidden');
+      document.getElementById('admin-calendar-loading')?.classList.add('hidden');
+      document.getElementById('admin-calendar-content')?.classList.remove('hidden');
       
       renderCalendar();
+      renderBookingsList();
     } catch (error) {
       console.error('Failed to fetch bookings:', error);
-      document.getElementById('calendar-loading').innerHTML = 
-        '<p class="text-sm text-red-500">Failed to load calendar. Please refresh.</p>';
+      const loading = document.getElementById('admin-calendar-loading');
+      if (loading) {
+        loading.innerHTML = '<p class="text-sm text-red-500">Failed to load calendar. Please refresh.</p>';
+      }
     }
   }
 
@@ -125,8 +138,10 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
   }
 
   function renderCalendar() {
-    const grid = document.getElementById('calendar-grid');
-    const monthYear = document.getElementById('month-year');
+    const grid = document.getElementById('admin-calendar-grid');
+    const monthYear = document.getElementById('admin-month-year');
+    
+    if (!grid || !monthYear) return;
     
     monthYear.textContent = `${monthNames[displayMonth]} ${displayYear}`;
     
@@ -137,7 +152,7 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
     
     // Empty cells for days before the first of the month
     for (let i = 0; i < firstDay; i++) {
-      html += '<div class="aspect-square"></div>';
+      html += '<div class="min-h-[120px]"></div>';
     }
     
     // Date cells
@@ -148,6 +163,8 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
       const booking = getBookingForDate(displayYear, displayMonth, day);
       const isBooked = booking && booking.availability === 'booked';
       const price = booking?.price || defaultPrice;
+      const name = booking?.name || '';
+      const note = booking?.note || '';
       
       let bgClass = isBooked ? 'bg-[#f5d4cf]' : 'bg-[#d8f0d8]';
       let borderClass = today ? 'ring-2 ring-[#9F6C52] ring-offset-2' : '';
@@ -156,14 +173,16 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
       let statusColor = isBooked ? 'text-[#c45a4a]' : 'text-[#5a9a5a]';
       
       html += `
-        <div class="aspect-square ${bgClass} ${borderClass} ${opacityClass} rounded-lg p-1.5 md:p-2 flex flex-col transition-all hover:shadow-md">
-          <div class="flex justify-between items-start">
-            <span class="font-subheader text-[8px] md:text-[10px] text-[#9F6C52]/60 tracking-wider">${dayNames[dayOfWeek]}</span>
-            <span class="font-header text-sm md:text-lg text-[#9F6C52]">${day}</span>
+        <div class="min-h-[120px] ${bgClass} ${borderClass} ${opacityClass} rounded-lg p-2 flex flex-col transition-all hover:shadow-md">
+          <div class="flex justify-between items-start mb-1">
+            <span class="font-subheader text-[9px] text-[#9F6C52]/60 tracking-wider">${dayNames[dayOfWeek]}</span>
+            <span class="font-header text-lg text-[#9F6C52]">${day}</span>
           </div>
-          <div class="flex-1 flex flex-col items-center justify-end pb-1 gap-0.5">
-            <span class="font-body text-[8px] md:text-xs ${statusColor} font-medium">${statusText}</span>
-            <span class="font-subheader text-[9px] md:text-sm text-[#9F6C52] font-semibold">${price}</span>
+          <div class="flex-1 flex flex-col gap-1">
+            <span class="font-body text-[10px] ${statusColor} font-medium">${statusText}</span>
+            <span class="font-subheader text-sm text-[#9F6C52] font-semibold">${price}</span>
+            ${name ? `<span class="font-body text-[10px] text-[#9F6C52]/80 truncate" title="${name}">${name}</span>` : ''}
+            ${note ? `<span class="font-body text-[9px] text-[#9F6C52]/60 truncate italic" title="${note}">${note}</span>` : ''}
           </div>
         </div>
       `;
@@ -172,8 +191,86 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
     grid.innerHTML = html;
   }
 
+  function renderBookingsList() {
+    const listContent = document.getElementById('bookings-list-content');
+    if (!listContent) return;
+    
+    if (bookings.length === 0) {
+      listContent.innerHTML = '<p class="text-sm opacity-60">No bookings yet.</p>';
+      return;
+    }
+    
+    // Sort by start date
+    const sorted = [...bookings].sort((a, b) => new Date(a.startDate) - new Date(b.startDate));
+    
+    let html = '';
+    for (const booking of sorted) {
+      const isBooked = booking.availability === 'booked';
+      const bgClass = isBooked ? 'bg-[#f5d4cf]/50' : 'bg-[#d8f0d8]/50';
+      const statusText = isBooked ? 'Booked' : 'Available';
+      const statusColor = isBooked ? 'text-[#c45a4a]' : 'text-[#5a9a5a]';
+      
+      html += `
+        <div class="p-4 ${bgClass} rounded-lg flex flex-col md:flex-row md:items-center justify-between gap-2">
+          <div class="flex-1">
+            <div class="flex items-center gap-3 mb-1">
+              <span class="font-subheader text-sm text-[#9F6C52]">${booking.name || 'Unnamed'}</span>
+              <span class="font-body text-xs ${statusColor} font-medium">${statusText}</span>
+              <span class="font-subheader text-sm text-[#9F6C52] font-semibold">${booking.price || defaultPrice}</span>
+            </div>
+            <div class="font-body text-xs text-[#9F6C52]/70">
+              ${booking.startDate} → ${booking.endDate}
+            </div>
+            ${booking.note ? `<div class="font-body text-xs text-[#9F6C52]/60 italic mt-1">${booking.note}</div>` : ''}
+          </div>
+          <button 
+            class="delete-booking text-xs text-red-400 hover:text-red-600 font-subheader transition-colors"
+            data-id="${booking.id}"
+          >
+            Delete
+          </button>
+        </div>
+      `;
+    }
+    
+    listContent.innerHTML = html;
+    
+    // Add delete handlers
+    listContent.querySelectorAll('.delete-booking').forEach(btn => {
+      btn.addEventListener('click', async (e) => {
+        const id = e.target.dataset.id;
+        if (confirm('Delete this booking?')) {
+          await deleteBooking(id);
+        }
+      });
+    });
+  }
+
+  async function deleteBooking(id) {
+    const newBookings = bookings.filter(b => b.id !== id);
+    
+    try {
+      const response = await fetch(API_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ bookings: newBookings, defaultPrice })
+      });
+      
+      if (response.ok) {
+        bookings = newBookings;
+        renderCalendar();
+        renderBookingsList();
+      } else {
+        alert('Failed to delete booking. Please try again.');
+      }
+    } catch (error) {
+      console.error('Delete error:', error);
+      alert('Failed to delete booking. Please try again.');
+    }
+  }
+
   // Event listeners
-  document.getElementById('prev-month')?.addEventListener('click', () => {
+  document.getElementById('admin-prev-month')?.addEventListener('click', () => {
     displayMonth--;
     if (displayMonth < 0) {
       displayMonth = 11;
@@ -182,7 +279,7 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
     renderCalendar();
   });
 
-  document.getElementById('next-month')?.addEventListener('click', () => {
+  document.getElementById('admin-next-month')?.addEventListener('click', () => {
     displayMonth++;
     if (displayMonth > 11) {
       displayMonth = 0;
@@ -193,26 +290,11 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
 
   // Initial fetch
   fetchBookings();
-
-  // Update at midnight to refresh "today" highlight
-  function scheduleNextDayUpdate() {
-    const now = new Date();
-    const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
-    const msUntilMidnight = tomorrow - now;
-    
-    setTimeout(() => {
-      currentDate = new Date();
-      fetchBookings(); // Re-fetch data at midnight
-      scheduleNextDayUpdate();
-    }, msUntilMidnight);
-  }
-  
-  scheduleNextDayUpdate();
 </script>
 
 <style>
-  .calendar-container {
-    max-width: 700px;
+  .admin-calendar-container {
+    max-width: 900px;
     margin: 0 auto;
   }
 </style>

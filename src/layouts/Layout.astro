@@ -71,9 +71,46 @@ const { title } = Astro.props;
 			<slot />
 		</main>
 		<footer class="max-w-6xl mx-auto px-6 py-20 text-center border-t border-[#9F6C52]/10 mt-20">
-			<p class="nav-link opacity-60">
+			<p class="nav-link opacity-60 mb-6">
 				&copy; {new Date().getFullYear()} Sherri's Beach Home · Cape San Blas, FL
 			</p>
+			<!-- Hidden Admin Login -->
+			<div class="flex items-center justify-center gap-2 opacity-40 hover:opacity-60 transition-opacity">
+				<input 
+					type="password" 
+					id="admin-password" 
+					placeholder="•••••" 
+					class="w-24 px-2 py-1 text-xs bg-transparent border border-[#9F6C52]/30 rounded text-center focus:outline-none focus:border-[#9F6C52]"
+				/>
+				<button 
+					id="admin-login-btn"
+					class="text-xs nav-link opacity-70 hover:opacity-100 transition-opacity"
+				>
+					Login
+				</button>
+			</div>
 		</footer>
+
+		<script>
+			const passwordInput = document.getElementById('admin-password') as HTMLInputElement;
+			const loginBtn = document.getElementById('admin-login-btn');
+			
+			function attemptLogin() {
+				if (passwordInput.value === 'barrierdunes') {
+					window.location.href = '/Sherri-Beach-Home/admin';
+				} else {
+					passwordInput.value = '';
+					passwordInput.placeholder = 'Try again';
+					setTimeout(() => {
+						passwordInput.placeholder = '•••••';
+					}, 1500);
+				}
+			}
+
+			loginBtn?.addEventListener('click', attemptLogin);
+			passwordInput?.addEventListener('keypress', (e) => {
+				if (e.key === 'Enter') attemptLogin();
+			});
+		</script>
 	</body>
 </html>
