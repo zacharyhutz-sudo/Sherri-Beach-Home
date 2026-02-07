@@ -31,28 +31,34 @@ const galleryImages = Object.values(images).map(img => {
   <!-- Scrolling Container -->
   <div 
     id="gallery-scroll"
-    class="flex overflow-x-auto snap-x snap-mandatory scrollbar-hide gap-1 w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] relative cursor-grab active:cursor-grabbing"
+    class="overflow-x-auto snap-x snap-mandatory scrollbar-hide w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] relative cursor-grab active:cursor-grabbing"
   >
-    {galleryImages.map((src, index) => (
-      <div 
-        class="flex-none w-[85vw] md:w-[30vw] aspect-[4/3] snap-center overflow-hidden group relative"
-        onclick={`openLightbox(${index})`}
-      >
-        <img 
-          src={src} 
-          alt="There’s Always Time for the Sea" 
-          class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-          loading="lazy"
-        />
-        <div class="absolute inset-0 bg-[#9F6C52]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
-          <span class="text-white bg-[#9F6C52]/80 p-3 rounded-full shadow-lg">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-          </span>
+    <!-- Two-row Grid with height-constrained items -->
+    <div class="flex flex-col gap-1 h-[400px] md:h-[600px] flex-wrap w-fit">
+      {galleryImages.map((src, index) => (
+        <div 
+          class={`flex-none snap-center overflow-hidden group relative h-[calc(50%-2px)] ${
+            index % 3 === 0 ? 'aspect-[4/3]' : 
+            index % 2 === 0 ? 'aspect-square' : 'aspect-video'
+          }`}
+          onclick={`openLightbox(${index})`}
+        >
+          <img 
+            src={src} 
+            alt="There’s Always Time for the Sea" 
+            class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
+            loading="lazy"
+          />
+          <div class="absolute inset-0 bg-[#9F6C52]/20 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
+            <span class="text-white bg-[#9F6C52]/80 p-3 rounded-full shadow-lg">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+              </svg>
+            </span>
+          </div>
         </div>
-      </div>
-    ))}
+      ))}
+    </div>
   </div>
 
   <!-- Lightbox Overlay -->
