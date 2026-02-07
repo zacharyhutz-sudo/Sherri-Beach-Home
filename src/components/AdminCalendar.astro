@@ -12,22 +12,22 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
 
   <div id="admin-calendar-content" class="hidden">
     <!-- Month Navigation -->
-    <div class="flex items-center justify-center gap-6 mb-8">
-      <button id="admin-prev-month" class="p-3 rounded-full hover:bg-[#A7B9C6]/20 transition-colors" aria-label="Previous month">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-[#9F6C52]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+    <div class="flex items-center justify-center gap-4 md:gap-6 mb-6 md:mb-8">
+      <button id="admin-prev-month" class="p-2 md:p-3 rounded-full hover:bg-[#A7B9C6]/20 transition-colors" aria-label="Previous month">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 md:w-6 md:h-6 text-[#9F6C52]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
         </svg>
       </button>
-      <h3 id="admin-month-year" class="text-2xl font-header text-[#9F6C52] min-w-[240px] text-center"></h3>
-      <button id="admin-next-month" class="p-3 rounded-full hover:bg-[#A7B9C6]/20 transition-colors" aria-label="Next month">
-        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6 text-[#9F6C52]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <h3 id="admin-month-year" class="text-xl md:text-2xl font-header text-[#9F6C52] min-w-[180px] md:min-w-[240px] text-center"></h3>
+      <button id="admin-next-month" class="p-2 md:p-3 rounded-full hover:bg-[#A7B9C6]/20 transition-colors" aria-label="Next month">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 md:w-6 md:h-6 text-[#9F6C52]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
         </svg>
       </button>
     </div>
 
-    <!-- Calendar Grid -->
-    <div class="bg-white/50 rounded-2xl p-4 md:p-6 shadow-sm">
+    <!-- Desktop Calendar Grid -->
+    <div class="hidden md:block bg-white/50 rounded-2xl p-4 md:p-6 shadow-sm">
       <!-- Day Headers -->
       <div class="grid grid-cols-7 gap-2 mb-2">
         <div class="text-center font-subheader text-xs text-[#A7B9C6] py-2">Sun</div>
@@ -45,21 +45,28 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
       </div>
     </div>
 
+    <!-- Mobile Calendar List -->
+    <div class="md:hidden bg-white/50 rounded-2xl p-4 shadow-sm">
+      <div id="admin-calendar-mobile" class="space-y-2">
+        <!-- Populated by JavaScript -->
+      </div>
+    </div>
+
     <!-- Legend -->
-    <div class="flex justify-center gap-8 mt-6">
+    <div class="flex justify-center gap-6 md:gap-8 mt-6">
       <div class="flex items-center gap-2">
-        <div class="w-4 h-4 rounded bg-[#d8f0d8] border border-[#b8d8b8]"></div>
-        <span class="text-sm font-body text-[#9F6C52]/70">Available</span>
+        <div class="w-3 h-3 md:w-4 md:h-4 rounded bg-[#d8f0d8] border border-[#b8d8b8]"></div>
+        <span class="text-xs md:text-sm font-body text-[#9F6C52]/70">Available</span>
       </div>
       <div class="flex items-center gap-2">
-        <div class="w-4 h-4 rounded bg-[#f5d4cf] border border-[#e8b8b0]"></div>
-        <span class="text-sm font-body text-[#9F6C52]/70">Booked</span>
+        <div class="w-3 h-3 md:w-4 md:h-4 rounded bg-[#f5d4cf] border border-[#e8b8b0]"></div>
+        <span class="text-xs md:text-sm font-body text-[#9F6C52]/70">Booked</span>
       </div>
     </div>
 
     <!-- Bookings List -->
-    <div id="bookings-list" class="mt-8 bg-white/50 rounded-2xl p-6">
-      <h4 class="font-subheader text-lg text-[#9F6C52] mb-4">All Bookings</h4>
+    <div id="bookings-list" class="mt-8 bg-white/50 rounded-2xl p-4 md:p-6">
+      <h4 class="font-subheader text-base md:text-lg text-[#9F6C52] mb-4">All Bookings</h4>
       <div id="bookings-list-content" class="space-y-3">
         <!-- Populated by JavaScript -->
       </div>
@@ -151,6 +158,11 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
   }
 
   function renderCalendar() {
+    renderDesktopCalendar();
+    renderMobileCalendar();
+  }
+
+  function renderDesktopCalendar() {
     const grid = document.getElementById('admin-calendar-grid');
     const monthYear = document.getElementById('admin-month-year');
     
@@ -204,6 +216,56 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
     grid.innerHTML = html;
   }
 
+  function renderMobileCalendar() {
+    const mobileContainer = document.getElementById('admin-calendar-mobile');
+    if (!mobileContainer) return;
+    
+    const daysInMonth = getDaysInMonth(displayYear, displayMonth);
+    const firstDay = getFirstDayOfMonth(displayYear, displayMonth);
+    
+    let html = '';
+    
+    for (let day = 1; day <= daysInMonth; day++) {
+      const today = isToday(displayYear, displayMonth, day);
+      const past = isPast(displayYear, displayMonth, day);
+      const dayOfWeek = (firstDay + day - 1) % 7;
+      const booking = getBookingForDate(displayYear, displayMonth, day);
+      const isBooked = booking && booking.availability === 'booked';
+      const price = getPriceForDate(displayYear, displayMonth, day);
+      const name = booking?.name || '';
+      const note = booking?.note || '';
+      
+      let bgClass = isBooked ? 'bg-[#f5d4cf]' : 'bg-[#d8f0d8]';
+      let borderClass = today ? 'ring-2 ring-[#9F6C52]' : '';
+      let opacityClass = past ? 'opacity-50' : '';
+      let statusText = isBooked ? 'Booked' : 'Available';
+      let statusColor = isBooked ? 'text-[#c45a4a]' : 'text-[#5a9a5a]';
+      
+      html += `
+        <div class="${bgClass} ${borderClass} ${opacityClass} rounded-lg px-4 py-3">
+          <div class="flex items-center justify-between">
+            <div class="flex items-center gap-3">
+              <div class="text-center min-w-[45px]">
+                <div class="font-header text-xl text-[#9F6C52]">${day}</div>
+                <div class="font-subheader text-[10px] text-[#9F6C52]/60 tracking-wider">${dayNames[dayOfWeek]}</div>
+              </div>
+              <span class="font-body text-sm ${statusColor} font-medium">${statusText}</span>
+            </div>
+            <span class="font-subheader text-lg text-[#9F6C52] font-semibold">${price}</span>
+          </div>
+          ${(name || note) ? `
+            <div class="mt-2 pt-2 border-t border-[#9F6C52]/10">
+              ${name ? `<div class="font-body text-xs text-[#9F6C52]/80">${name}</div>` : ''}
+              ${note ? `<div class="font-body text-xs text-[#9F6C52]/60 italic">${note}</div>` : ''}
+            </div>
+          ` : ''}
+        </div>
+      `;
+    }
+    
+    mobileContainer.innerHTML = html;
+  }
+
   function renderBookingsList() {
     const listContent = document.getElementById('bookings-list-content');
     if (!listContent) return;
@@ -224,9 +286,9 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
       const statusColor = isBooked ? 'text-[#c45a4a]' : 'text-[#5a9a5a]';
       
       html += `
-        <div class="p-4 ${bgClass} rounded-lg flex flex-col md:flex-row md:items-center justify-between gap-2">
+        <div class="p-3 md:p-4 ${bgClass} rounded-lg flex flex-col md:flex-row md:items-center justify-between gap-2">
           <div class="flex-1">
-            <div class="flex items-center gap-3 mb-1">
+            <div class="flex items-center gap-2 md:gap-3 mb-1 flex-wrap">
               <span class="font-subheader text-sm text-[#9F6C52]">${booking.name || 'Unnamed'}</span>
               <span class="font-body text-xs ${statusColor} font-medium">${statusText}</span>
             </div>
@@ -235,7 +297,7 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
             </div>
             ${booking.note ? `<div class="font-body text-xs text-[#9F6C52]/60 italic mt-1">${booking.note}</div>` : ''}
           </div>
-          <div class="flex gap-3">
+          <div class="flex gap-3 justify-end">
             <button 
               class="edit-booking text-xs text-[#92ABBB] hover:text-[#9F6C52] font-subheader transition-colors"
               data-booking='${JSON.stringify(booking).replace(/'/g, "&#39;")}'

@@ -6,14 +6,14 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
 ---
 
 <Layout title="Admin - Sherri's Beach Condo">
-	<main class="max-w-6xl mx-auto px-6 py-12">
-		<header class="mb-12 text-center">
-			<h1 class="text-4xl font-header text-[#92ABBB] mb-4">Admin Dashboard</h1>
-			<p class="text-lg opacity-80">Manage bookings and pricing</p>
+	<main class="max-w-6xl mx-auto px-4 md:px-6 py-8 md:py-12">
+		<header class="mb-8 md:mb-12 text-center">
+			<h1 class="text-2xl md:text-4xl font-header text-[#92ABBB] mb-2 md:mb-4">Admin Dashboard</h1>
+			<p class="text-sm md:text-lg opacity-80">Manage bookings and pricing</p>
 		</header>
 
-		<!-- Forms Section - Side by Side -->
-		<section class="mb-16 grid lg:grid-cols-2 gap-8">
+		<!-- Forms Section - Side by Side on Desktop, Stacked on Mobile -->
+		<section class="mb-10 md:mb-16 grid lg:grid-cols-2 gap-6 md:gap-8">
 			<!-- Booking Form (Left) -->
 			<div>
 				<h2 class="text-xl font-subheader text-[#92ABBB] mb-6 text-center">Bookings</h2>
@@ -184,12 +184,12 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
 
 		<!-- Admin Calendar -->
 		<section>
-			<h2 class="text-2xl font-subheader text-[#92ABBB] mb-8 text-center">Calendar Overview</h2>
+			<h2 class="text-xl md:text-2xl font-subheader text-[#92ABBB] mb-6 md:mb-8 text-center">Calendar Overview</h2>
 			<AdminCalendar />
 		</section>
 
-		<footer class="mt-16 pt-8 border-t border-[#9F6C52]/10 text-center">
-			<a href="/Sherri-Beach-Home/book" class="text-[#92ABBB] hover:opacity-80 font-subheader text-sm tracking-widest transition-all">← Back to Public Calendar</a>
+		<footer class="mt-10 md:mt-16 pt-6 md:pt-8 border-t border-[#9F6C52]/10 text-center">
+			<a href="/Sherri-Beach-Home/book" class="text-[#92ABBB] hover:opacity-80 font-subheader text-xs md:text-sm tracking-widest transition-all">← Back to Public Calendar</a>
 		</footer>
 	</main>
 </Layout>
