@@ -40,24 +40,24 @@ const galleryImages = Object.values(images).map(img => {
     </div>
   </div>
 
-  <!-- Navigation Buttons Underneath -->
-  <div class="flex justify-center gap-4 mt-8">
+  <!-- Navigation Band -->
+  <div class="bg-[#b6b791] w-screen left-1/2 right-1/2 -ml-[50vw] -mr-[50vw] relative py-4 flex justify-center gap-1">
     <button 
       id="gallery-prev"
-      class="bg-white hover:bg-[#92ABBB] hover:text-white p-3 shadow-sm transition-all rounded-full border border-[#92ABBB]/20 group/btn"
+      class="bg-white/10 hover:bg-white/20 text-white p-4 transition-all w-24 flex items-center justify-center group/btn"
       aria-label="Previous images"
     >
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[#9F6C52] group-hover/btn:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 transition-transform group-hover/btn:-translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
       </svg>
     </button>
 
     <button 
       id="gallery-next"
-      class="bg-white hover:bg-[#92ABBB] hover:text-white p-3 shadow-sm transition-all rounded-full border border-[#92ABBB]/20 group/btn"
+      class="bg-white/10 hover:bg-white/20 text-white p-4 transition-all w-24 flex items-center justify-center group/btn"
       aria-label="Next images"
     >
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-[#9F6C52] group-hover/btn:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 transition-transform group-hover/btn:translate-x-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
       </svg>
     </button>
