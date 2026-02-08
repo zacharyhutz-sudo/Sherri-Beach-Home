@@ -175,13 +175,13 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
       let statusColor = isBooked ? 'text-[#c45a4a]' : 'text-white/90';
       
       html += `
-        <div class="min-h-[60px] md:aspect-square ${bgClass} ${borderClass} ${opacityClass} rounded-md md:rounded-lg p-1 md:p-2 flex flex-col transition-all hover:shadow-md">
+        <div class="min-h-[60px] md:min-h-0 md:aspect-square ${bgClass} ${borderClass} ${opacityClass} rounded-md md:rounded-lg p-1 md:p-2 flex flex-col transition-all hover:shadow-md">
           <div class="flex justify-between items-start">
             <span class="font-header text-sm md:text-lg ${isBooked ? 'text-[#9F6C52]' : 'text-white'}">${day}</span>
           </div>
-          <div class="flex-1 flex flex-col items-center justify-end gap-0">
-            <span class="font-body text-[7px] md:text-xs ${statusColor} font-medium leading-tight">${statusText}</span>
-            <span class="font-header text-[9px] md:text-sm ${isBooked ? 'text-[#9F6C52]' : 'text-white'} font-semibold leading-tight">${price}</span>
+          <div class="mt-auto flex flex-col items-center justify-end gap-0">
+            <span class="font-body text-[7px] md:text-[10px] lg:text-xs ${statusColor} font-medium leading-tight">${statusText}</span>
+            <span class="font-header text-[9px] md:text-xs lg:text-sm ${isBooked ? 'text-[#9F6C52]' : 'text-white'} font-semibold leading-tight">${price}</span>
           </div>
         </div>
       `;
