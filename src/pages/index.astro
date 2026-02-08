@@ -12,6 +12,13 @@ import Gallery from '../components/Gallery.astro';
 					<!-- Hero Polaroids (Left on Desktop) -->
 					<div class="w-full md:w-[60%]">
 						<div class="relative inline-block w-full max-w-[800px]">
+							<!-- Shell Decoration (Mobile: Top-Left of Polaroid) -->
+							<img 
+								src="/Sherri-Beach-Home/images/shell.png" 
+								class="absolute -top-6 -left-6 w-16 md:hidden z-20 drop-shadow-md rotate-[-15deg]" 
+								alt=""
+							/>
+							
 							<!-- Main Polaroid Container -->
 							<div class="bg-white p-1 pb-4 shadow-2xl rounded-sm border border-gray-100 relative z-0">
 								<img 
@@ -34,7 +41,15 @@ import Gallery from '../components/Gallery.astro';
 
 					<!-- Introduction (Right on Desktop) -->
 					<div class="w-full md:w-[40%] text-left">
-						<h2 class="text-3xl md:text-5xl mb-6 md:mb-8 font-header text-white">A Coastal Retreat</h2>
+						<div class="flex items-center gap-4 mb-6 md:mb-8">
+							<h2 class="text-3xl md:text-5xl font-header text-white">A Coastal Retreat</h2>
+							<!-- Shell Decoration (Desktop: Right of Title) -->
+							<img 
+								src="/Sherri-Beach-Home/images/shell.png" 
+								class="hidden md:block w-16 lg:w-20 drop-shadow-lg rotate-[15deg]" 
+								alt=""
+							/>
+						</div>
 						<div class="text-base md:text-xl leading-relaxed space-y-6 text-white/90">
 							<p>
 								Welcome to our slice of paradise in Cape San Blas, Florida. Nestled between the crystal-clear Gulf of Mexico and the calm St. Joseph Bay, 
