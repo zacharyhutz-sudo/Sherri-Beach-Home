@@ -51,8 +51,8 @@ import Gallery from '../components/Gallery.astro';
 			
 			<div class="grid grid-cols-2 md:grid-cols-3 gap-8 md:gap-12">
 				<!-- Bedrooms -->
-				<div>
-					<h3 class="text-xl font-subheader mb-6 text-[#9F6C52]">2 Bedrooms</h3>
+				<div class="flex flex-col">
+					<h3 class="text-xl font-subheader mb-6 text-[#9F6C52] h-auto md:h-14 flex items-center">2 Bedrooms</h3>
 					<div class="space-y-6">
 						<div>
 							<p class="font-bold text-sm uppercase tracking-wider mb-1">Master Bedroom</p>
@@ -68,8 +68,8 @@ import Gallery from '../components/Gallery.astro';
 				</div>
 
 				<!-- Bathrooms -->
-				<div>
-					<h3 class="text-xl font-subheader mb-6 text-[#9F6C52]">2 Bathrooms</h3>
+				<div class="flex flex-col">
+					<h3 class="text-xl font-subheader mb-6 text-[#9F6C52] h-auto md:h-14 flex items-center">2 Bathrooms</h3>
 					<div class="space-y-6">
 						<div>
 							<p class="font-bold text-sm uppercase tracking-wider mb-1">Master Bath</p>
@@ -83,9 +83,9 @@ import Gallery from '../components/Gallery.astro';
 				</div>
 
 				<!-- Amenities/Spaces -->
-				<div>
-					<h3 class="text-xl font-subheader mb-6 text-[#9F6C52]">Spaces</h3>
-					<div class="space-y-6">
+				<div class="flex flex-col col-span-2 md:col-span-1">
+					<h3 class="text-xl font-subheader mb-6 text-[#9F6C52] h-auto md:h-14 flex items-center border-t md:border-t-0 pt-8 md:pt-0">Spaces</h3>
+					<div class="grid grid-cols-2 md:grid-cols-1 gap-6">
 						<div>
 							<p class="font-bold text-sm uppercase tracking-wider mb-1">Kitchen</p>
 							<p class="text-sm opacity-80">Fully stocked with Crockpot, toaster, Keurig, and more.</p>
@@ -118,8 +118,8 @@ import Gallery from '../components/Gallery.astro';
 			
 			<div class="grid grid-cols-2 md:grid-cols-3 gap-8 md:gap-12">
 				<!-- Beach & Water -->
-				<div>
-					<h3 class="text-xl font-subheader mb-4 md:mb-6 text-[#9F6C52]">Beach & Water</h3>
+				<div class="flex flex-col">
+					<h3 class="text-xl font-subheader mb-4 md:mb-6 text-[#9F6C52] h-auto md:h-14 flex items-center">Beach & Water</h3>
 					<div class="space-y-6">
 						<div>
 							<p class="font-bold text-sm uppercase tracking-wider mb-1">Direct Access</p>
@@ -137,8 +137,8 @@ import Gallery from '../components/Gallery.astro';
 				</div>
 
 				<!-- Sports & Recreation -->
-				<div>
-					<h3 class="text-xl font-subheader mb-6 text-[#9F6C52]">Sports & Recreation</h3>
+				<div class="flex flex-col">
+					<h3 class="text-xl font-subheader mb-6 text-[#9F6C52] h-auto md:h-14 flex items-center">Sports & Recreation</h3>
 					<div class="space-y-6">
 						<div>
 							<p class="font-bold text-sm uppercase tracking-wider mb-1">Court Sports</p>
@@ -152,9 +152,9 @@ import Gallery from '../components/Gallery.astro';
 				</div>
 
 				<!-- Amenities -->
-				<div>
-					<h3 class="text-xl font-subheader mb-6 text-[#9F6C52]">Amenities</h3>
-					<div class="space-y-6">
+				<div class="flex flex-col col-span-2 md:col-span-1">
+					<h3 class="text-xl font-subheader mb-6 text-[#9F6C52] h-auto md:h-14 flex items-center border-t md:border-t-0 pt-8 md:pt-0">Amenities</h3>
+					<div class="grid grid-cols-2 md:grid-cols-1 gap-6">
 						<div>
 							<p class="font-bold text-sm uppercase tracking-wider mb-1">Clubhouse</p>
 							<p class="opacity-80">Community clubhouse access</p>
