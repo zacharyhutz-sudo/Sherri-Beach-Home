@@ -40,13 +40,13 @@ import Gallery from '../components/Gallery.astro';
 					</div>
 
 					<!-- Introduction (Right on Desktop) -->
-					<div class="w-full md:w-[40%] text-left">
-						<div class="flex items-center gap-4 mb-6 md:mb-8">
-							<h2 class="text-3xl md:text-5xl font-header text-white">A Coastal Retreat</h2>
-							<!-- Shell Decoration (Desktop: Right of Title) -->
+					<div class="w-full md:w-[40%] text-left relative">
+						<div class="mb-6 md:mb-8 relative">
+							<h2 class="text-3xl md:text-5xl font-header text-white relative z-10">A Coastal Retreat</h2>
+							<!-- Shell Decoration (Desktop: Overlaying Title) -->
 							<img 
 								src="/Sherri-Beach-Home/images/shell.png" 
-								class="hidden md:block w-32 lg:w-40 drop-shadow-lg rotate-[15deg]" 
+								class="hidden md:block absolute top-1/2 -right-12 -translate-y-1/2 w-32 lg:w-40 drop-shadow-lg rotate-[15deg] z-0 opacity-80" 
 								alt=""
 							/>
 						</div>
