@@ -503,5 +503,6 @@ const SAVE_URL = "/api/save-bookings";
 	}
 
 	// Load initial pricing list
-	fetch(API_URL).then(r => r.json()).then(data => renderPricingList(data.pricing));
+	const NPOINT_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
+	fetch(`${NPOINT_URL}?v=${Date.now()}`).then(r => r.json()).then(data => renderPricingList(data.pricing));
 </script>
