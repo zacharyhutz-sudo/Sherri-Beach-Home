@@ -48,7 +48,7 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
     <!-- Legend -->
     <div class="flex justify-center gap-4 md:gap-8 mt-4 md:mt-6">
       <div class="flex items-center gap-1.5 md:gap-2">
-        <div class="w-3 h-3 md:w-4 md:h-4 rounded bg-[#A7B9C6]/20 border border-[#A7B9C6]/30"></div>
+        <div class="w-3 h-3 md:w-4 md:h-4 rounded bg-[#b6b791]/30 border border-[#b6b791]/50"></div>
         <span class="text-xs md:text-sm font-body text-[#9F6C52]/70">Available</span>
       </div>
       <div class="flex items-center gap-1.5 md:gap-2">
@@ -184,11 +184,11 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
       const name = booking?.name || '';
       const note = booking?.note || '';
       
-      let bgClass = isBooked ? 'bg-[#f5d4cf]' : 'bg-[#A7B9C6]/20';
-      let borderClass = today ? 'ring-2 ring-[#9F6C52] ring-offset-1 md:ring-offset-2' : 'border border-[#A7B9C6]/10';
+      let bgClass = isBooked ? 'bg-[#f5d4cf]' : 'bg-[#b6b791]/30';
+      let borderClass = today ? 'ring-2 ring-[#9F6C52] ring-offset-1 md:ring-offset-2' : 'border border-[#b6b791]/10';
       let opacityClass = past ? 'opacity-50' : '';
       let statusText = isBooked ? 'Booked' : 'Open';
-      let statusColor = isBooked ? 'text-[#c45a4a]' : 'text-[#92ABBB]';
+      let statusColor = isBooked ? 'text-[#c45a4a]' : 'text-[#8a8b66]';
       
       // Truncate name for mobile
       const displayName = mobile && name.length > 6 ? name.substring(0, 5) + '…' : name;
@@ -226,9 +226,9 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
     let html = '';
     for (const booking of sorted) {
       const isBooked = booking.availability === 'booked';
-      const bgClass = isBooked ? 'bg-[#f5d4cf]/50' : 'bg-[#A7B9C6]/20';
+      const bgClass = isBooked ? 'bg-[#f5d4cf]/50' : 'bg-[#b6b791]/30';
       const statusText = isBooked ? 'Booked' : 'Available';
-      const statusColor = isBooked ? 'text-[#c45a4a]' : 'text-[#92ABBB]';
+      const statusColor = isBooked ? 'text-[#c45a4a]' : 'text-[#8a8b66]';
       
       html += `
         <div class="p-3 md:p-4 ${bgClass} rounded-lg">
