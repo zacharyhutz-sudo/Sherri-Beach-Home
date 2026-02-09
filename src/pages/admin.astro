@@ -196,7 +196,7 @@ const SAVE_URL = "/api/save-bookings";
 	</main>
 </Layout>
 
-<script define:vars={{ API_URL, SAVE_URL }}>
+<script>
 	// === BOOKING FORM ===
 	const bookingForm = document.getElementById('booking-form');
 	const bookingStatus = document.getElementById('booking-status');
@@ -216,22 +216,25 @@ const SAVE_URL = "/api/save-bookings";
 		return Date.now().toString(36) + Math.random().toString(36).substr(2);
 	}
 
-	// Retry helper with timeout for flaky connections
-	async function fetchWithRetry(url, options = {}, retries = 3, timeoutMs = 15000) {
+	
+
+	// Simple retry helper
+	async function fetchWithRetry(url, options = {}, retries = 3) {
+		let lastError;
 		for (let i = 0; i < retries; i++) {
 			try {
-				const controller = new AbortController();
-				const timeout = setTimeout(() => controller.abort(), timeoutMs);
-				const response = await fetch(url, { ...options, signal: controller.signal });
-				clearTimeout(timeout);
+				const response = await fetch(url, options);
 				if (response.ok) return response;
-				if (i === retries - 1) throw new Error(`HTTP ${response.status}`);
+				lastError = new Error('Server returned ' + response.status);
 			} catch (error) {
-				console.warn(`Attempt ${i + 1} failed:`, error.message);
-				if (i === retries - 1) throw error;
-				await new Promise(r => setTimeout(r, 1000 * (i + 1))); // Wait 1s, 2s, 3s
+				lastError = error;
+				console.warn('Attempt ' + (i + 1) + ' failed:', error.message);
+			}
+			if (i < retries - 1) {
+				await new Promise(function(r) { setTimeout(r, 1000 * (i + 1)); });
 			}
 		}
+		throw lastError;
 	}
 
 	function setBookingEditMode(booking) {
@@ -259,7 +262,7 @@ const SAVE_URL = "/api/save-bookings";
 		const formData = new FormData(bookingForm);
 		const startDate = formData.get('startDate');
 		const endDate = formData.get('endDate');
-		const NPOINT_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
+		
 		
 		if (new Date(endDate) < new Date(startDate)) {
 			showBookingStatus('End date must be after start date', true);
@@ -327,7 +330,7 @@ const SAVE_URL = "/api/save-bookings";
 		const startDate = formData.get('startDate');
 		const endDate = formData.get('endDate');
 		let price = formData.get('price').trim();
-		const NPOINT_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
+		
 		
 		// Auto-add $ if missing
 		if (price && !price.startsWith('$')) {
@@ -419,7 +422,7 @@ const SAVE_URL = "/api/save-bookings";
 	});
 
 	async function deletePricing(id) {
-		const NPOINT_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
+		
 		try {
 			const currentData = await fetchWithRetry(NPOINT_URL).then(r => r.json());
 			const bookings = currentData.bookings || [];
@@ -443,7 +446,7 @@ const SAVE_URL = "/api/save-bookings";
 	}
 
 	async function deleteBooking(id) {
-		const NPOINT_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
+		
 		try {
 			const currentData = await fetchWithRetry(NPOINT_URL).then(r => r.json());
 			const pricing = currentData.pricing || [];
@@ -490,6 +493,6 @@ const SAVE_URL = "/api/save-bookings";
 	}
 
 	// Load initial pricing list
-	const NPOINT_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
+	
 	fetch(`${NPOINT_URL}?v=${Date.now()}`).then(r => r.json()).then(data => renderPricingList(data.pricing));
 </script>
