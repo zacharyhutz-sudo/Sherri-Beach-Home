@@ -216,6 +216,24 @@ const SAVE_URL = "/api/save-bookings";
 		return Date.now().toString(36) + Math.random().toString(36).substr(2);
 	}
 
+	// Retry helper with timeout for flaky connections
+	async function fetchWithRetry(url, options = {}, retries = 3, timeoutMs = 15000) {
+		for (let i = 0; i < retries; i++) {
+			try {
+				const controller = new AbortController();
+				const timeout = setTimeout(() => controller.abort(), timeoutMs);
+				const response = await fetch(url, { ...options, signal: controller.signal });
+				clearTimeout(timeout);
+				if (response.ok) return response;
+				if (i === retries - 1) throw new Error(`HTTP ${response.status}`);
+			} catch (error) {
+				console.warn(`Attempt ${i + 1} failed:`, error.message);
+				if (i === retries - 1) throw error;
+				await new Promise(r => setTimeout(r, 1000 * (i + 1))); // Wait 1s, 2s, 3s
+			}
+		}
+	}
+
 	function setBookingEditMode(booking) {
 		editingBookingId = booking.id;
 		document.getElementById('name').value = booking.name || '';
@@ -258,7 +276,8 @@ const SAVE_URL = "/api/save-bookings";
 		};
 
 		try {
-			const currentData = await fetch(NPOINT_URL).then(r => r.json());
+			showBookingStatus('Saving...', false);
+			const currentData = await fetchWithRetry(NPOINT_URL).then(r => r.json());
 			let bookings = currentData.bookings || [];
 			const pricing = currentData.pricing || [];
 			const defaultPrice = currentData.defaultPrice || '$210';
@@ -271,27 +290,19 @@ const SAVE_URL = "/api/save-bookings";
 
 			const payload = { bookings, pricing, defaultPrice };
 
-			// 1. Save to Live Database (Instant)
-			const response = await fetch(NPOINT_URL, {
+			// Save to Live Database with retry
+			await fetchWithRetry(NPOINT_URL, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify(payload)
 			});
 
-			// 2. Try to save to Local Backup (for build consistency)
-			fetch(SAVE_URL, {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify(payload)
-			}).catch(() => console.warn('Local backup save failed (expected on production)'));
-
-			if (response.ok) {
-				showBookingStatus(editingBookingId ? 'Booking updated!' : 'Booking saved!');
-				clearBookingForm();
-				if (window.adminCalendarRefresh) window.adminCalendarRefresh();
-			} else throw new Error('Failed');
+			showBookingStatus(editingBookingId ? 'Booking updated!' : 'Booking saved!');
+			clearBookingForm();
+			if (window.adminCalendarRefresh) window.adminCalendarRefresh();
 		} catch (error) {
-			showBookingStatus('Failed to save. Please try again.', true);
+			console.error('Save error:', error);
+			showBookingStatus(`Failed: ${error.message}. Check your connection.`, true);
 		}
 	});
 
@@ -336,7 +347,8 @@ const SAVE_URL = "/api/save-bookings";
 		};
 
 		try {
-			const currentData = await fetch(NPOINT_URL).then(r => r.json());
+			showPricingStatus('Saving...', false);
+			const currentData = await fetchWithRetry(NPOINT_URL).then(r => r.json());
 			const bookings = currentData.bookings || [];
 			let pricing = currentData.pricing || [];
 			const defaultPrice = currentData.defaultPrice || '$210';
@@ -389,92 +401,67 @@ const SAVE_URL = "/api/save-bookings";
 
 			const payload = { bookings, pricing, defaultPrice };
 
-			// 1. Save to Live Database
-			const response = await fetch(NPOINT_URL, {
+			// Save to Live Database with retry
+			await fetchWithRetry(NPOINT_URL, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify(payload)
 			});
 
-			// 2. Try Local Backup
-			fetch(SAVE_URL, {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify(payload)
-			}).catch(() => {});
-
-			if (response.ok) {
-				showPricingStatus('Price set!');
-				pricingForm.reset();
-				if (window.adminCalendarRefresh) window.adminCalendarRefresh();
-				renderPricingList(pricing);
-			} else throw new Error('Failed');
+			showPricingStatus('Price set!');
+			pricingForm.reset();
+			if (window.adminCalendarRefresh) window.adminCalendarRefresh();
+			renderPricingList(pricing);
 		} catch (error) {
-			showPricingStatus('Failed to save. Please try again.', true);
+			console.error('Pricing save error:', error);
+			showPricingStatus(`Failed: ${error.message}. Check connection.`, true);
 		}
 	});
 
 	async function deletePricing(id) {
 		const NPOINT_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
 		try {
-			const currentData = await fetch(NPOINT_URL).then(r => r.json());
+			const currentData = await fetchWithRetry(NPOINT_URL).then(r => r.json());
 			const bookings = currentData.bookings || [];
 			const pricing = (currentData.pricing || []).filter(p => p.id !== id);
 			const defaultPrice = currentData.defaultPrice || '$210';
 
 			const payload = { bookings, pricing, defaultPrice };
 
-			const response = await fetch(NPOINT_URL, {
+			await fetchWithRetry(NPOINT_URL, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify(payload)
 			});
 
-			fetch(SAVE_URL, {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify(payload)
-			}).catch(() => {});
-
-			if (response.ok) {
-				if (window.adminCalendarRefresh) window.adminCalendarRefresh();
-				renderPricingList(pricing);
-			}
+			if (window.adminCalendarRefresh) window.adminCalendarRefresh();
+			renderPricingList(pricing);
 		} catch (error) {
 			console.error('Delete pricing error:', error);
+			alert(`Failed to delete: ${error.message}`);
 		}
 	}
 
 	async function deleteBooking(id) {
 		const NPOINT_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
 		try {
-			const currentData = await fetch(NPOINT_URL).then(r => r.json());
+			const currentData = await fetchWithRetry(NPOINT_URL).then(r => r.json());
 			const pricing = currentData.pricing || [];
 			const defaultPrice = currentData.defaultPrice || '$210';
 			const newBookings = (currentData.bookings || []).filter(b => b.id !== id);
 			
 			const payload = { bookings: newBookings, pricing, defaultPrice };
 			
-			const response = await fetch(NPOINT_URL, {
+			await fetchWithRetry(NPOINT_URL, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify(payload)
 			});
 
-			fetch(SAVE_URL, {
-				method: 'POST',
-				headers: { 'Content-Type': 'application/json' },
-				body: JSON.stringify(payload)
-			}).catch(() => {});
-			
-			if (response.ok) {
-				if (window.adminCalendarRefresh) window.adminCalendarRefresh();
-			} else {
-				alert('Failed to delete booking. Please try again.');
-			}
+			if (window.adminCalendarRefresh) window.adminCalendarRefresh();
 		} catch (error) {
 			console.error('Delete error:', error);
-			alert('Failed to delete booking. Please try again.');
+			alert(`Failed to delete: ${error.message}`);
 		}
 	}
 
