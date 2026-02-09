@@ -4,7 +4,7 @@
 const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
 ---
 
-<div class="calendar-container">
+<div class="calendar-container w-full">
   <!-- Loading State -->
   <div id="calendar-loading" class="text-center py-12">
     <div class="inline-block w-8 h-8 border-2 border-[#A7B9C6] border-t-transparent rounded-full animate-spin"></div>
@@ -19,7 +19,7 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" />
         </svg>
       </button>
-      <h3 id="month-year" class="text-xl md:text-2xl font-header text-[#9F6C52] min-w-[180px] md:min-w-[240px] text-center"></h3>
+      <h3 id="month-year" class="text-xl md:text-3xl font-header text-[#9F6C52] min-w-[180px] md:min-w-[300px] text-center"></h3>
       <button id="next-month" class="p-2 md:p-3 rounded-full hover:bg-[#A7B9C6]/20 transition-colors" aria-label="Next month">
         <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 md:w-6 md:h-6 text-[#9F6C52]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
           <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" />
@@ -28,20 +28,20 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
     </div>
 
     <!-- Calendar Grid -->
-    <div class="bg-white/50 rounded-2xl p-2 md:p-6 shadow-sm">
+    <div class="bg-white/50 rounded-2xl p-2 md:p-8 lg:p-10 shadow-sm">
       <!-- Day Headers -->
-      <div class="grid grid-cols-7 gap-1 md:gap-2 mb-1 md:mb-2">
-        <div class="text-center font-header text-[10px] md:text-xs text-[#A7B9C6] py-1 md:py-2">Sun</div>
-        <div class="text-center font-header text-[10px] md:text-xs text-[#A7B9C6] py-1 md:py-2">Mon</div>
-        <div class="text-center font-header text-[10px] md:text-xs text-[#A7B9C6] py-1 md:py-2">Tue</div>
-        <div class="text-center font-header text-[10px] md:text-xs text-[#A7B9C6] py-1 md:py-2">Wed</div>
-        <div class="text-center font-header text-[10px] md:text-xs text-[#A7B9C6] py-1 md:py-2">Thu</div>
-        <div class="text-center font-header text-[10px] md:text-xs text-[#A7B9C6] py-1 md:py-2">Fri</div>
-        <div class="text-center font-header text-[10px] md:text-xs text-[#A7B9C6] py-1 md:py-2">Sat</div>
+      <div class="grid grid-cols-7 gap-1 md:gap-4 mb-2 md:mb-4">
+        <div class="text-center font-header text-[10px] md:text-sm text-[#A7B9C6] py-1 md:py-2">Sun</div>
+        <div class="text-center font-header text-[10px] md:text-sm text-[#A7B9C6] py-1 md:py-2">Mon</div>
+        <div class="text-center font-header text-[10px] md:text-sm text-[#A7B9C6] py-1 md:py-2">Tue</div>
+        <div class="text-center font-header text-[10px] md:text-sm text-[#A7B9C6] py-1 md:py-2">Wed</div>
+        <div class="text-center font-header text-[10px] md:text-sm text-[#A7B9C6] py-1 md:py-2">Thu</div>
+        <div class="text-center font-header text-[10px] md:text-sm text-[#A7B9C6] py-1 md:py-2">Fri</div>
+        <div class="text-center font-header text-[10px] md:text-sm text-[#A7B9C6] py-1 md:py-2">Sat</div>
       </div>
       
       <!-- Date Grid -->
-      <div id="calendar-grid" class="grid grid-cols-7 gap-1 md:gap-3">
+      <div id="calendar-grid" class="grid grid-cols-7 gap-1 md:gap-4 lg:gap-6">
         <!-- Populated by JavaScript -->
       </div>
     </div>
@@ -170,13 +170,13 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
       let statusColor = isBooked ? 'text-[#c45a4a]' : 'text-white/90';
       
       html += `
-        <div class="aspect-square ${bgClass} ${borderClass} ${opacityClass} rounded-md md:rounded-lg p-1 md:p-1.5 lg:p-2 flex flex-col transition-all hover:shadow-md overflow-hidden">
+        <div class="aspect-square ${bgClass} ${borderClass} ${opacityClass} rounded-md md:rounded-xl p-1 md:p-3 lg:p-4 flex flex-col transition-all hover:shadow-md overflow-hidden">
           <div class="flex justify-between items-start">
-            <span class="font-header text-[10px] sm:text-xs md:text-sm lg:text-lg ${isBooked ? 'text-[#9F6C52]' : 'text-white'}">${day}</span>
+            <span class="font-header text-[10px] sm:text-xs md:text-base lg:text-xl ${isBooked ? 'text-[#9F6C52]' : 'text-white'}">${day}</span>
           </div>
           <div class="mt-auto flex flex-col items-center justify-end leading-none">
-            <span class="font-body text-[6px] md:text-[8px] lg:text-[10px] xl:text-xs ${statusColor} font-medium tracking-tighter md:tracking-normal">${statusText}</span>
-            <span class="font-header text-[8px] md:text-[10px] lg:text-xs xl:text-sm ${isBooked ? 'text-[#9F6C52]' : 'text-white'} font-semibold tracking-tighter md:tracking-normal">${price}</span>
+            <span class="font-body text-[6px] md:text-[10px] lg:text-xs xl:text-sm ${statusColor} font-medium tracking-tighter md:tracking-normal">${statusText}</span>
+            <span class="font-header text-[8px] md:text-xs lg:text-sm xl:text-base ${isBooked ? 'text-[#9F6C52]' : 'text-white'} font-semibold tracking-tighter md:tracking-normal">${price}</span>
           </div>
         </div>
       `;
@@ -230,7 +230,7 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
 
 <style>
   .calendar-container {
-    max-width: 700px;
+    max-width: 900px;
     margin: 0 auto;
   }
 </style>
