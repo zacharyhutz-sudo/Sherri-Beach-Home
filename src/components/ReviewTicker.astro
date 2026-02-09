@@ -1,0 +1,121 @@
+---
+const reviews = [
+  {
+    name: "Amy E.",
+    title: "Sunrise sand and sunset",
+    body: "Loved this stay !! Everything was on point clean and comfortable beds. Sheri was on top of any questions we had . What a blessing for our Easter weekend praise on the beach.",
+    rating: 5
+  },
+  {
+    name: "Melissa V.",
+    title: "Best Vacation",
+    body: "The house was amazing and the location was steps away from both pools, the beach, and the playground. Furnishings were very nice and everything was provided.",
+    rating: 5
+  },
+  {
+    name: "Carole H.",
+    title: "Super Location",
+    body: "Sherri and Rodgers unit is a very short walk to the beach and the pools. It's ultra clean, nicely decorated and freshly updated. Great communication.",
+    rating: 5
+  },
+  {
+    name: "Brandy D.",
+    title: "Very clean and beautiful",
+    body: "Sherri's townhome is very clean with new flooring, paint and furnishings. We will definitely stay here again!",
+    rating: 5
+  },
+  {
+    name: "Kevin S.",
+    title: "Great stay",
+    body: "Property very clean and well stocked. Sherri was a great communicator and made check-in/check-out very easy. We will be returning.",
+    rating: 5
+  },
+  {
+    name: "Steven S.",
+    title: "Great getaway!",
+    body: "Everything was stellar! Thank you!",
+    rating: 5
+  },
+  {
+    name: "Debbie P.",
+    title: "Home away from home!",
+    body: "We enjoyed our stay very much. We had all we needed and more! Lovely environment.",
+    rating: 5
+  },
+  {
+    name: "Ken R.",
+    title: "Great place!",
+    body: "Condo was very clean and comfortable. We really enjoyed our stay and will certainly stay there again!",
+    rating: 5
+  },
+  {
+    name: "Dave W.",
+    title: "Snowbird getaway",
+    body: "Wonderful place with lots to explore. Perfect for extended winter stays.",
+    rating: 5
+  }
+];
+
+// Duplicate for seamless loop
+const displayReviews = [...reviews, ...reviews];
+---
+
+<div class="review-ticker-container bg-white border-y border-[#92ABBB]/10 py-6 overflow-hidden relative">
+  <div class="review-ticker-track flex gap-8 items-center whitespace-nowrap">
+    {displayReviews.map((review) => (
+      <div class="review-card inline-flex flex-col bg-[#EEE7DD]/30 p-6 rounded-xl border border-[#92ABBB]/5 min-w-[350px] max-w-[450px]">
+        <div class="flex gap-1 mb-2">
+          {[...Array(review.rating)].map(() => (
+            <svg class="w-4 h-4 text-[#9F6C52]" fill="currentColor" viewBox="0 0 20 20">
+              <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
+            </svg>
+          ))}
+        </div>
+        <h4 class="font-header text-[#9F6C52] text-lg mb-1">{review.title}</h4>
+        <p class="font-body text-sm text-[#9F6C52]/80 line-clamp-2 mb-3 whitespace-normal">{review.body}</p>
+        <p class="font-body text-xs font-bold uppercase tracking-widest text-[#92ABBB]">— {review.name}</p>
+      </div>
+    ))}
+  </div>
+</div>
+
+<style>
+  .review-ticker-container::before,
+  .review-ticker-container::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    width: 150px;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+  }
+
+  .review-ticker-container::before {
+    left: 0;
+    background: linear-gradient(to right, white, transparent);
+  }
+
+  .review-ticker-container::after {
+    right: 0;
+    background: linear-gradient(to left, white, transparent);
+  }
+
+  .review-ticker-track {
+    animation: scroll 60s linear infinite;
+    width: max-content;
+  }
+
+  .review-ticker-track:hover {
+    animation-play-state: paused;
+  }
+
+  @keyframes scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  .review-card {
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+  }
+</style>
