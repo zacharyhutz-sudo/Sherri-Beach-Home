@@ -2,7 +2,8 @@
 import Layout from '../layouts/Layout.astro';
 import AdminCalendar from '../components/AdminCalendar.astro';
 
-const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
+const API_URL = "/data/bookings.json";
+const SAVE_URL = "/api/save-bookings";
 ---
 
 <Layout title="Admin - Sherri's Beach Condo">
@@ -195,7 +196,7 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
 	</main>
 </Layout>
 
-<script define:vars={{ API_URL }}>
+<script define:vars={{ API_URL, SAVE_URL }}>
 	// === BOOKING FORM ===
 	const bookingForm = document.getElementById('booking-form');
 	const bookingStatus = document.getElementById('booking-status');
@@ -267,7 +268,7 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
 				bookings.push(bookingData);
 			}
 
-			const response = await fetch(API_URL, {
+			const response = await fetch(SAVE_URL, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ bookings, pricing, defaultPrice })
@@ -374,7 +375,7 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
 			updatedPricing.push(pricingEntry);
 			pricing = updatedPricing;
 
-			const response = await fetch(API_URL, {
+			const response = await fetch(SAVE_URL, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ bookings, pricing, defaultPrice })
@@ -398,7 +399,7 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
 			const pricing = (currentData.pricing || []).filter(p => p.id !== id);
 			const defaultPrice = currentData.defaultPrice || '$210';
 
-			const response = await fetch(API_URL, {
+			const response = await fetch(SAVE_URL, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify({ bookings, pricing, defaultPrice })
