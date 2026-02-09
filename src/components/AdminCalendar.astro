@@ -48,7 +48,7 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
     <!-- Legend -->
     <div class="flex justify-center gap-4 md:gap-8 mt-4 md:mt-6">
       <div class="flex items-center gap-1.5 md:gap-2">
-        <div class="w-3 h-3 md:w-4 md:h-4 rounded bg-[#d8f0d8] border border-[#b8d8b8]"></div>
+        <div class="w-3 h-3 md:w-4 md:h-4 rounded bg-[#A7B9C6]/20 border border-[#A7B9C6]/30"></div>
         <span class="text-xs md:text-sm font-body text-[#9F6C52]/70">Available</span>
       </div>
       <div class="flex items-center gap-1.5 md:gap-2">
@@ -184,11 +184,11 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
       const name = booking?.name || '';
       const note = booking?.note || '';
       
-      let bgClass = isBooked ? 'bg-[#f5d4cf]' : 'bg-[#d8f0d8]';
-      let borderClass = today ? 'ring-2 ring-[#9F6C52] ring-offset-1 md:ring-offset-2' : '';
+      let bgClass = isBooked ? 'bg-[#f5d4cf]' : 'bg-[#A7B9C6]/20';
+      let borderClass = today ? 'ring-2 ring-[#9F6C52] ring-offset-1 md:ring-offset-2' : 'border border-[#A7B9C6]/10';
       let opacityClass = past ? 'opacity-50' : '';
       let statusText = isBooked ? 'Booked' : 'Open';
-      let statusColor = isBooked ? 'text-[#c45a4a]' : 'text-[#5a9a5a]';
+      let statusColor = isBooked ? 'text-[#c45a4a]' : 'text-[#92ABBB]';
       
       // Truncate name for mobile
       const displayName = mobile && name.length > 6 ? name.substring(0, 5) + '…' : name;
@@ -199,8 +199,8 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
             <span class="font-header text-sm md:text-lg text-[#9F6C52]">${day}</span>
           </div>
           <div class="flex-1 flex flex-col gap-0 md:gap-1 justify-end">
-            <span class="font-body text-[7px] md:text-[10px] ${statusColor} font-medium leading-tight">${statusText}</span>
-            <span class="font-header text-[8px] md:text-sm text-[#9F6C52] font-semibold leading-tight">${price}</span>
+            <span class="font-body text-[7px] md:text-[11px] lg:text-xs ${statusColor} font-bold leading-tight uppercase tracking-tighter md:tracking-normal">${statusText}</span>
+            <span class="font-header text-[8px] md:text-base lg:text-lg text-[#9F6C52] font-bold leading-tight">${price}</span>
             ${name ? `<span class="font-body text-[6px] md:text-[10px] text-[#9F6C52]/80 truncate leading-tight" title="${name}">${displayName}</span>` : ''}
             ${note && !mobile ? `<span class="font-body text-[9px] text-[#9F6C52]/60 italic" title="${note}">${note}</span>` : ''}
           </div>
@@ -226,9 +226,9 @@ const API_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
     let html = '';
     for (const booking of sorted) {
       const isBooked = booking.availability === 'booked';
-      const bgClass = isBooked ? 'bg-[#f5d4cf]/50' : 'bg-[#d8f0d8]/50';
+      const bgClass = isBooked ? 'bg-[#f5d4cf]/50' : 'bg-[#A7B9C6]/20';
       const statusText = isBooked ? 'Booked' : 'Available';
-      const statusColor = isBooked ? 'text-[#c45a4a]' : 'text-[#5a9a5a]';
+      const statusColor = isBooked ? 'text-[#c45a4a]' : 'text-[#92ABBB]';
       
       html += `
         <div class="p-3 md:p-4 ${bgClass} rounded-lg">
