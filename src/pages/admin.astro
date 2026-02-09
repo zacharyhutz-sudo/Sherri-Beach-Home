@@ -216,7 +216,8 @@ const SAVE_URL = "/api/save-bookings";
 		return Date.now().toString(36) + Math.random().toString(36).substr(2);
 	}
 
-	
+	// API endpoint - uses Netlify function which proxies to storage
+	const API_ENDPOINT = "/api/bookings";
 
 	// Simple retry helper
 	async function fetchWithRetry(url, options = {}, retries = 3) {
@@ -280,7 +281,7 @@ const SAVE_URL = "/api/save-bookings";
 
 		try {
 			showBookingStatus('Saving...', false);
-			const currentData = await fetchWithRetry(NPOINT_URL).then(r => r.json());
+			const currentData = await fetchWithRetry(API_ENDPOINT).then(r => r.json());
 			let bookings = currentData.bookings || [];
 			const pricing = currentData.pricing || [];
 			const defaultPrice = currentData.defaultPrice || '$210';
@@ -294,7 +295,7 @@ const SAVE_URL = "/api/save-bookings";
 			const payload = { bookings, pricing, defaultPrice };
 
 			// Save to Live Database with retry
-			await fetchWithRetry(NPOINT_URL, {
+			await fetchWithRetry(API_ENDPOINT, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify(payload)
@@ -351,7 +352,7 @@ const SAVE_URL = "/api/save-bookings";
 
 		try {
 			showPricingStatus('Saving...', false);
-			const currentData = await fetchWithRetry(NPOINT_URL).then(r => r.json());
+			const currentData = await fetchWithRetry(API_ENDPOINT).then(r => r.json());
 			const bookings = currentData.bookings || [];
 			let pricing = currentData.pricing || [];
 			const defaultPrice = currentData.defaultPrice || '$210';
@@ -405,7 +406,7 @@ const SAVE_URL = "/api/save-bookings";
 			const payload = { bookings, pricing, defaultPrice };
 
 			// Save to Live Database with retry
-			await fetchWithRetry(NPOINT_URL, {
+			await fetchWithRetry(API_ENDPOINT, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify(payload)
@@ -424,14 +425,14 @@ const SAVE_URL = "/api/save-bookings";
 	async function deletePricing(id) {
 		
 		try {
-			const currentData = await fetchWithRetry(NPOINT_URL).then(r => r.json());
+			const currentData = await fetchWithRetry(API_ENDPOINT).then(r => r.json());
 			const bookings = currentData.bookings || [];
 			const pricing = (currentData.pricing || []).filter(p => p.id !== id);
 			const defaultPrice = currentData.defaultPrice || '$210';
 
 			const payload = { bookings, pricing, defaultPrice };
 
-			await fetchWithRetry(NPOINT_URL, {
+			await fetchWithRetry(API_ENDPOINT, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify(payload)
@@ -448,14 +449,14 @@ const SAVE_URL = "/api/save-bookings";
 	async function deleteBooking(id) {
 		
 		try {
-			const currentData = await fetchWithRetry(NPOINT_URL).then(r => r.json());
+			const currentData = await fetchWithRetry(API_ENDPOINT).then(r => r.json());
 			const pricing = currentData.pricing || [];
 			const defaultPrice = currentData.defaultPrice || '$210';
 			const newBookings = (currentData.bookings || []).filter(b => b.id !== id);
 			
 			const payload = { bookings: newBookings, pricing, defaultPrice };
 			
-			await fetchWithRetry(NPOINT_URL, {
+			await fetchWithRetry(API_ENDPOINT, {
 				method: 'POST',
 				headers: { 'Content-Type': 'application/json' },
 				body: JSON.stringify(payload)
@@ -494,5 +495,5 @@ const SAVE_URL = "/api/save-bookings";
 
 	// Load initial pricing list
 	
-	fetch(`${NPOINT_URL}?v=${Date.now()}`).then(r => r.json()).then(data => renderPricingList(data.pricing));
+	fetch(`${API_ENDPOINT}?v=${Date.now()}`).then(r => r.json()).then(data => renderPricingList(data.pricing));
 </script>

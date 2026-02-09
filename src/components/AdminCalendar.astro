@@ -87,14 +87,14 @@ const SAVE_URL = "/api/save-bookings";
 
   // Fetch data with fallback
   async function fetchBookings() {
-    const NPOINT_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
+    const API_ENDPOINT = "/api/bookings";
     try {
-      const response = await fetch(`${NPOINT_URL}?v=${Date.now()}`);
-      if (!response.ok) throw new Error('npoint failed');
+      const response = await fetch(API_ENDPOINT + "?v=" + Date.now());
+      if (!response.ok) throw new Error('API returned ' + response.status);
       const data = await response.json();
       applyData(data);
     } catch (error) {
-      console.warn('Live API error in Admin, falling back to local:', error);
+      console.warn('API error, falling back to local:', error);
       try {
         const response = await fetch(`${API_URL}?v=${Date.now()}`);
         const data = await response.json();
@@ -298,9 +298,9 @@ const SAVE_URL = "/api/save-bookings";
   }
 
   async function deleteBooking(id) {
-    const NPOINT_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
+    const API_ENDPOINT = "/api/bookings";
     try {
-      const response = await fetch(NPOINT_URL);
+      const response = await fetch(API_ENDPOINT);
       const currentData = await response.json();
       const pricing = currentData.pricing || [];
       const defaultPrice = currentData.defaultPrice || '$210';
@@ -308,18 +308,12 @@ const SAVE_URL = "/api/save-bookings";
       
       const payload = { bookings: newBookings, pricing, defaultPrice };
       
-      const response2 = await fetch(NPOINT_URL, {
+      const response2 = await fetch(API_ENDPOINT, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(payload)
       });
 
-      fetch(SAVE_URL, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(payload)
-      }).catch(() => {});
-      
       if (response2.ok) {
         bookings = newBookings;
         renderCalendar();

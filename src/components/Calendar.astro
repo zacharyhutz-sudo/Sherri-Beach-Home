@@ -1,6 +1,6 @@
 ---
 // Calendar component for There’s Always Time for the Sea
-// Data fetched from npoint.io API
+// Data fetched from API endpoint
 const API_URL = "/data/bookings.json";
 ---
 
@@ -75,20 +75,20 @@ const API_URL = "/data/bookings.json";
   let pricing = [];
   let defaultPrice = "$210";
 
-  // Fetch data from npoint with local fallback
+  // Fetch data from API with local fallback
   async function fetchBookings() {
-    const NPOINT_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
+    const API_ENDPOINT = "/api/bookings";
     try {
-      // 1. Try npoint first (Instant updates)
-      const response = await fetch(NPOINT_URL);
-      if (!response.ok) throw new Error('npoint failed');
+      // 1. Try our API endpoint first (works on Netlify)
+      const response = await fetch(API_ENDPOINT + "?v=" + Date.now());
+      if (!response.ok) throw new Error('API returned ' + response.status);
       const data = await response.json();
-      console.log('Calendar loaded from Live API');
+      console.log('Calendar loaded from API');
       applyData(data);
     } catch (error) {
-      console.warn('Live API blocked or failed, switching to local backup:', error);
+      console.warn('API failed, trying local fallback:', error);
       try {
-        // 2. Fallback to local (Adblock proof)
+        // 2. Fallback to local file (for GitHub Pages or if API fails)
         const response = await fetch(`${API_URL}?v=${Date.now()}`);
         const data = await response.json();
         console.log('Calendar loaded from Local Backup');
