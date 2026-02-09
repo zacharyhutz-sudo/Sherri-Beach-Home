@@ -75,25 +75,41 @@ const API_URL = "/data/bookings.json";
   let pricing = [];
   let defaultPrice = "$210";
 
-  // Fetch data from local source
+  // Fetch data from npoint with local fallback
   async function fetchBookings() {
+    const NPOINT_URL = "https://api.npoint.io/9bf5ddca826de74d7320";
     try {
-      // Adding cache busting to ensure we get latest data after admin update
-      const response = await fetch(`${API_URL}?v=${Date.now()}`);
+      // 1. Try npoint first (Instant updates)
+      const response = await fetch(NPOINT_URL);
+      if (!response.ok) throw new Error('npoint failed');
       const data = await response.json();
-      bookings = data.bookings || [];
-      pricing = data.pricing || [];
-      defaultPrice = data.defaultPrice || "$210";
-      
-      document.getElementById('calendar-loading').classList.add('hidden');
-      document.getElementById('calendar-content').classList.remove('hidden');
-      
-      renderCalendar();
+      console.log('Calendar loaded from Live API');
+      applyData(data);
     } catch (error) {
-      console.error('Failed to fetch bookings:', error);
-      document.getElementById('calendar-loading').innerHTML = 
-        '<p class="text-sm text-red-500">Failed to load calendar. Please refresh.</p>';
+      console.warn('Live API blocked or failed, switching to local backup:', error);
+      try {
+        // 2. Fallback to local (Adblock proof)
+        const response = await fetch(`${API_URL}?v=${Date.now()}`);
+        const data = await response.json();
+        console.log('Calendar loaded from Local Backup');
+        applyData(data);
+      } catch (localError) {
+        console.error('All data sources failed:', localError);
+        document.getElementById('calendar-loading').innerHTML = 
+          '<p class="text-sm text-red-500">Failed to load calendar. Please refresh.</p>';
+      }
     }
+  }
+
+  function applyData(data) {
+    bookings = data.bookings || [];
+    pricing = data.pricing || [];
+    defaultPrice = data.defaultPrice || "$210";
+    
+    document.getElementById('calendar-loading').classList.add('hidden');
+    document.getElementById('calendar-content').classList.remove('hidden');
+    
+    renderCalendar();
   }
 
   function getBookingForDate(year, month, day) {
